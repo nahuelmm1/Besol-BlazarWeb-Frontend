@@ -1,0 +1,25 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="margin: 24px 0;">
+  <md-card fxFlex="90%">
+    <md-card-title>Checkout Open</md-card-title>
+
+    <md-divider></md-divider>
+
+    <md-card-content fxLayout="column">
+
+      <div fxLayout="column" fxLayout.gt-md="row">
+        <md-input-container fxFlex>
+          <input mdInput placeholder="Beginning balance" type="number" step="0.01" value="0.00" ng-model="beginningBalance">
+        </md-input-container>
+      </div>
+      <div fxLayout="column" fxLayout.gt-md="row">
+        <md-input-container fxFlex>
+          <input mdInput placeholder="Description" ng-model="description">
+        </md-input-container>
+      </div>
+       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="flex-end">
+        <button md-raised-button color="primary">Open</button>
+       </div>
+    </md-card-content>
+
+  </md-card>
+</div>

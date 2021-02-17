@@ -1,0 +1,13 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'cancel cart' | translate}}</h2>
+<md-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <md-select [formControl]="selectedReason" placeholder="{{'reason' | translate}}" floatPlaceholder="auto" class="Select--vertical">
+    <md-option *ngFor="let reason of reasons" [value]="reason.id">{{ reason.name }}</md-option>
+  </md-select>
+  <md-input-container>
+    <textarea mdInput [formControl]="comment" rows="3" placeholder="{{'comment' | translate}}"></textarea>
+  </md-input-container>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="primary" (click)="onAction()">{{'ok' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

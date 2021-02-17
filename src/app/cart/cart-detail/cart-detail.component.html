@@ -1,0 +1,274 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="FormPage FormPage--long" fxLayoutWrap>
+    <div fxHide="false" fxHide.gt-sm="true">{{ 'cart detail' | translate }} {{ cartId }}</div>
+    <bla-cart-state-breadcrumb fxHide="true" fxHide.gt-sm="false" *ngIf="cart" [stateId]="cart.stateId" fxFlex="90%"></bla-cart-state-breadcrumb>
+    <md-card fxFlex="90%" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="10px">
+        <md-card-content fxFlex="100%">
+            <div>
+                <div fxLayout="column" fxLayout.gt-md="row" fxLayoutAlign="start start" fxLayoutAlign.gt-md="space-between center" fxFlex="10%">
+                    <button md-raised-button (click)="onNextState()" *ngIf="authorization.allowCancel">
+        {{ nextState }}
+      </button>
+                </div>
+                <div fxLayoutAlign="end start" fxFlex="90%" fxLayoutGap="10px">
+                    <button md-raised-button (click)="onCancel()" [disabled]="!authorization.allowCancel" *ngIf="authorization.isCartAdmin" color="warn">
+        {{'cancel' | translate}}
+      </button>
+                    <button md-raised-button (click)="onChangeState()" *ngIf="authorization.allowChangeState">
+        {{'change state' | translate}}
+      </button>
+                    <!-- <button md-raised-button (click)="onReleaseOrder()" *ngIf="!authorization.isCartAdmin">{{'release order' | translate}}</button> -->
+
+                    <button md-raised-button (click)="recalculatePrice()" *ngIf="authorization.allowRecalculatePrice">
+        {{'recalculate price' | translate}}
+      </button>
+                    <button md-raised-button (click)="changeShippingAddress()" *ngIf="authorization.allowChangeShippingAddress">
+        {{'change shippingAddress' | translate}}
+      </button>
+
+                    <button md-raised-button (click)="onPackaging()">
+        {{'packaging' | translate}}
+      </button>
+                    <button md-raised-button (click)="onRequestAddition()" *ngIf="cart && authorization.allowRequestAddition" class="Button--iconLeft">
+        <md-icon *ngIf="cart.requestAddition">check</md-icon>{{'request addition' | translate}}
+      </button>
+                    <button md-raised-button (click)="onHistory()">
+        {{'history' | translate}}
+      </button>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+    <form novalidate [formGroup]="frmCart" *ngIf="hasCart" fxFlex="90%">
+        <!-- hidden button to submit the form on enter -->
+        <button type="submit" hidden></button>
+        <md-card>
+            <md-card-title>
+                <div fxLayout="column" fxLayout.gt-md="row" fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                    <div>
+                        {{ 'cart nro' | translate }}: {{ cartId }}
+                    </div>
+
+                    <div>
+                        <button md-raised-button color="primary" (click)="onUpdateHeader()" *ngIf="authorization.allowChangeState">
+                            {{'save' | translate}}    
+                          </button>
+                        <button md-raised-button [mdMenuTriggerFor]="menuExport" *ngIf="authorization.allowExport" class="Button--iconRight">
+                                {{'export' | translate}}<md-icon>arrow_drop_down</md-icon>
+                              </button>
+                        <md-menu #menuExport="mdMenu">
+                            <button md-menu-item (click)="exportXls()" [disabled]="!authorization.allowExportExcel">
+                                  {{'export excel' | translate}}
+                                </button>
+                            <button md-menu-item (click)="exportPdf()" [disabled]="!authorization.allowExportPdf">
+                                  {{'export pdf' | translate}}
+                                </button>
+                            <button md-menu-item (click)="exportXls(true)" [disabled]="!authorization.allowExportAttachedExcel">
+                                  {{'export attached excel' | translate}}
+                                </button>
+                            <button md-menu-item (click)="exportPdf(true)" [disabled]="!authorization.allowExportAttachedPdf">
+                                  {{'export attached pdf' | translate}}
+                                </button>
+                        </md-menu>
+                        <button md-raised-button (click)="onGoBack()">
+                                {{'go back' | translate}}
+                              </button>
+                    </div>
+                </div>
+            </md-card-title>
+            <md-card-content fxLayout="column" *ngIf="cart">
+                <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                    <md-input-container fxFlex="30%">
+                        <input mdInput readonly formControlName="client" class="hand-link" placeholder="{{ 'name' | translate }}" (click)="clickUser($event)">
+                    </md-input-container>
+                    <div fxFlex="30%">
+                        <md-checkbox #iptPaidCheck formControlName="paidChecked" color="primary" *ngIf="authorization.showPaidVerification" fxFlex="100%" class="Checkbox Checkbox--leftLabeled">
+                            {{'paid checked' | translate}}
+                        </md-checkbox>
+                    </div>
+
+                    <md-input-container fxFlex="30%">
+                        <input #iptLocation mdInput formControlName="location" placeholder="{{'location' | translate}}">
+                    </md-input-container>
+                </div>
+            </md-card-content>
+        </md-card>
+        <md-card>
+            <md-card-content fxLayout="column" *ngIf="cart">
+                <md-tab-group>
+                    <md-tab label="{{'clientinformation' | translate}}">
+                        <div class="margin-top-tab">
+                            <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="email" readonly placeholder="{{'email' | translate}}">
+                                </md-input-container>
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="clientNumber" readonly placeholder="{{'client number' | translate}}">
+                                </md-input-container>
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="phone" readonly placeholder="{{'phone' | translate}}">
+                                </md-input-container>
+                                <md-input-container fxFlex="100%">
+                                    <input mdInput formControlName="address" readonly placeholder="{{'client address' | translate}}">
+                                </md-input-container>
+
+                            </div>
+                        </div>
+                    </md-tab>
+                    <md-tab label="{{'billInformation' | translate}}">
+                        <div class="margin-top-tab">
+                            <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="taxes" readonly placeholder="{{'iva' | translate}}">
+                                </md-input-container>
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="cuit" readonly placeholder="{{'cuit' | translate}}">
+                                </md-input-container>
+                                <div fxFlex="30%">
+                                </div>
+                                <md-input-container fxFlex="30%" class="Input">
+                                    <input mdInput formControlName="totalAmount" readonly placeholder="{{'amount' | translate}}">
+                                </md-input-container>
+                                <p fxFlex="30%" class="Paragraph Paragraph--small">
+                                    {{'cart amount' | translate }}: {{ cart.amount }}<br/> {{'shipping cost' | translate }}: {{ cart.shippingCost }}
+                                </p>
+                                <div fxFlex="30%">
+                                </div>
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="debt" readonly placeholder="{{'debt' | translate}}">
+                                </md-input-container>
+                                <md-input-container fxFlex="30%">
+                                    <input mdInput formControlName="debtComment" readonly placeholder="{{'debt comment' | translate}}">
+                                </md-input-container>
+                                <div fxFlex="30%">
+                                </div>
+                            </div>
+                        </div>
+                    </md-tab>
+                    <md-tab label="{{'deliveryInformation' | translate}}">
+                        <div class="margin-top-tab">
+                            <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center" class="margin-top-line">
+                                <div fxFlex="30%">
+                                    <md-radio-group class="RagioGroup" color="primary" (change)="onChangeShippingMethod($event)" formControlName="shippingMethod" fxLayoutGap="20px">
+                                        <md-radio-button color="primary" value="0">{{'carried by shipping' | translate}}</md-radio-button>
+                                        <md-radio-button color="primary" value="1">{{'carried from point of sale' | translate}}</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                                <div fxFlex="60%"></div>
+                                <div class="margin-top-line" *ngIf="!isCarriedFromPointOfSale">
+                                    <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                                        <md-input-container fxFlex="30%">
+                                            <input mdInput formControlName="country" readonly placeholder="{{'country' | translate}}">
+                                        </md-input-container>
+                                        <md-input-container fxFlex="30%">
+                                            <input mdInput formControlName="province" readonly placeholder="{{'province' | translate}}">
+                                        </md-input-container>
+                                        <md-input-container fxFlex="30%">
+                                            <input mdInput formControlName="city" readonly placeholder="{{'city' | translate}}">
+                                        </md-input-container>
+                                        <md-input-container fxFlex="60%">
+                                            <input mdInput formControlName="shippingAddress" readonly placeholder="{{'shipping address' | translate}}">
+                                        </md-input-container>
+                                        <div fxFlex="30%">
+                                            <md-select #iptExpress formControlName="expressTransport" placeholder="{{'express' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale">
+                                                <md-option [value]="notAssignedExpress">{{ notAssignedExpress.name | translate }}</md-option>
+                                                <md-option *ngFor="let express of expressList" [value]="express">{{ express.name }}</md-option>
+                                            </md-select>
+                                        </div>
+
+                                        <div fxFlex="30%">
+                                            <md-radio-group class="RagioGroup" formControlName="deliveryOption" fxLayoutGap="10px">
+                                                <md-radio-button color="primary" value="1">{{'deliver at door' | translate}}</md-radio-button>
+                                                <md-radio-button color="primary" value="0">{{'deliver to subsidiary' | translate}}</md-radio-button>
+                                            </md-radio-group>
+                                        </div>
+                                        <md-input-container fxFlex="30%" fxFlexAlign="start">
+                                            <input mdInput formControlName="trackNumber" placeholder="{{'track number' | translate}}">
+                                        </md-input-container>
+                                        <md-checkbox formControlName="cashOnDelivery" color="primary" fxFlex="30%" class="Checkbox Checkbox--leftLabeled">
+                                            {{'pay cash on delivery' | translate}}
+                                        </md-checkbox>
+
+
+                                    </div>
+                                </div>
+                                <div class="margin-top-line" *ngIf="isCarriedFromPointOfSale" fxFlex="100%">
+
+                                    <div fxFlex="30%">
+                                        <md-input-container floatingPlaceholder="false">
+                                            <input mdInput formControlName="carryDate" [mdDatepicker]="dpCarryDate" placeholder="{{'carry date' | translate}}" readonly="readonly">
+                                            <button mdSuffix [mdDatepickerToggle]="dpCarryDate"></button>
+                                        </md-input-container>
+                                        <md-datepicker #dpCarryDate></md-datepicker>
+                                    </div>
+                                    <md-input-container fxFlex="30%" fxFlexAlign="start">
+                                        <input mdInput formControlName="carryBy" placeholder="{{'carry by' | translate}}">
+                                    </md-input-container>
+                                    <div fxFlex="30%"></div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <br/>
+                    </md-tab>
+                    <md-tab label="{{'comments' | translate}}">
+                        <div class="margin-top-tab">
+                            <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                                <div fxFlex="100%" fxFlexAlign="start" fxLayout="column" fxLayoutAlign="start strech">
+                                    <md-input-container>
+                                        <textarea mdInput formControlName="comment" rows="3" placeholder="{{'comment' | translate}}"></textarea>
+                                    </md-input-container>
+                                    <md-input-container fxFlex="100%">
+                                        <textarea mdInput formControlName="additionalData" readonly rows="3" placeholder="{{'additional data' | translate}}"></textarea>
+                                    </md-input-container>
+                                </div>
+                                <bla-cart-detail-internal-data [commentList]="cartComments" (onAddComment)="onAddComment($event)" fxFlex="98%"></bla-cart-detail-internal-data>
+                            </div>
+                        </div>
+                    </md-tab>
+                    <md-tab label="{{'options' | translate}}">
+                        <div class="margin-top-tab">
+                            <div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+                                <div fxFlex="60%">
+                                    <md-checkbox *ngIf="authorization.allowRequestAddition" formControlName="requestAddition" color="primary" fxFlex="100%" class="Checkbox Checkbox--leftLabeled">
+                                        {{'request addition' | translate}}
+                                    </md-checkbox>
+                                </div>
+                                <div fxFlex="30%"></div>
+                                <!-- boton de modificar -->
+                                <div fxFlex="60%">
+                                    <md-radio-group formControlName="suggestAlternativeProducts" class="RagioGroup">
+                                        {{'Do you wish Besol to suggest you alternative products when there is no stock?' | translate}}
+                                        <md-radio-button color="primary" value="0">{{'yes' | translate}}</md-radio-button>
+                                        <md-radio-button color="primary" value="1">{{'no' | translate}}</md-radio-button>
+                                    </md-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </md-tab>
+                </md-tab-group>
+
+
+                <div fxFlex="32%"></div>
+                <!-- move request addition to a check in the button action to request addition -->
+
+
+
+
+
+            </md-card-content>
+        </md-card>
+    </form>
+
+    <bla-cart-detail-payments fxFlex="90%" class="Divider--spaced" [loading]="isLoadingCartPayments" [payments]="cartPayments" [authorization]="authorization"></bla-cart-detail-payments>
+    <md-card fxFlex="90%" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="10px">
+        <md-card-content>
+            <button md-raised-button (click)="onAddArticle()" *ngIf="authorization.allowAddProduct">
+        {{'add product' | translate}}
+      </button>
+        </md-card-content>
+    </md-card>
+    <bla-cart-detail-products fxFlex="90%" [loading]="isLoadingCartProducts" [products]="cartProducts" [authorization]="authorization" (onConfirmChange)="onConfirmProduct($event)" (onLockChange)="onLockProduct($event)" (onDeleteAdded)="onDeleteAddedProduct($event)"
+        (onOptionComment)="onOptionCommentProduct($event)" (onDblClick)="onViewProductMovement($event)"></bla-cart-detail-products>
+</div>

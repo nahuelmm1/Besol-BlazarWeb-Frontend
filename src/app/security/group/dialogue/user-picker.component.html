@@ -1,0 +1,34 @@
+<div class="fixActionRow">
+  <h2 md-dialog-title>
+    {{ 'add user' | translate}}
+  </h2>
+  <md-dialog-content>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px">
+      <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 450px">
+        <input mdInput [formControl]="filter" placeholder="{{'filter' | translate}}" type="text"
+          (keypress)="onKeypress($event)">
+      </md-input-container>
+      <button md-raised-button color="primary" (click)="onSearch()">{{'search' | translate}}</button>
+    </div>
+    <md-divider md-inset></md-divider>
+    <ngx-datatable class="material" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40"
+      [headerHeight]="50" [footerHeight]="50" [count]="page.totalElements" [offset]="page.pageNumber"
+      [limit]="page.size" [columns]="columns" [rows]="rows" [scrollbarH]="true" [externalPaging]="true"
+      (page)="setPage($event)" [sorts]="[{prop: page.filters.sortType, dir: page.filters.sortDirection}]"
+      [externalSorting]="true" (sort)="onSort($event)" (activate)="handleActivate($event)" [rowClass]="getRowClassBound"
+      [messages]="translateMessages">
+    </ngx-datatable>
+    <md-divider md-inset></md-divider>
+    <ng-template #selectedCellTemplate let-row="row" let-value="value">
+      <md-icon *ngIf="isSelected(row)">check</md-icon>
+    </ng-template>
+  </md-dialog-content>
+  <div class="spacer"></div>
+  <md-dialog-actions fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="end center">
+    <button md-raised-button color="primary" style="margin-right: 16px;" (click)="onOk()" [disabled]="!hasSelection()">
+      {{'ok' | translate}}
+    </button>
+    <button md-raised-button color="secondary" (click)="onClose()">
+      {{'close' | translate}}</button>
+  </md-dialog-actions>
+</div>

@@ -1,0 +1,92 @@
+<div fxLayout="column" class="PageContent">
+  <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+    <md-card-title>{{'cart by inactive users' | translate}}</md-card-title>
+  </md-card>
+
+  <md-card class="mat-elevation-z2">
+    <form novalidate (ngSubmit)="onSearch($event)" [formGroup]="frmFilter"
+      fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutWrap fxLayoutGap="15px">
+      <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 250px">
+        <input mdInput formControlName="filter" placeholder="{{'filter' | translate}}" type="text">
+      </md-input-container>
+      <md-input-container floatingPlaceholder="false"  fxFlex="0 0 auto">
+        <input mdInput formControlName="dateFrom" [mdDatepicker]="dpDateFrom" placeholder="{{'date from' | translate}}" readonly="readonly">
+        <button mdSuffix [mdDatepickerToggle]="dpDateFrom"></button>
+      </md-input-container>
+      <md-datepicker #dpDateFrom></md-datepicker>
+
+      <md-input-container  floatingPlaceholder="false" fxFlex="0 0 auto">
+        <input mdInput formControlName="dateTo" [mdDatepicker]="dpDateTo" placeholder="{{'date to' | translate}}" readonly="readonly">
+        <button mdSuffix [mdDatepickerToggle]="dpDateTo"></button>
+        <md-datepicker #dpDateTo></md-datepicker>
+      </md-input-container>
+      <button md-raised-button color="primary" (click)="onSearch($event)">{{'search' | translate}}</button>
+    </form>
+    <div class="u-TopSpace" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px" fxFlex="1 0 100%">
+      <button md-raised-button color="primary" (click)="onDetail()" [disabled]="!hasSelection()" >{{'detail' | translate}}</button>
+      <button md-raised-button color="primary" (click)="onHistory()" [disabled]="!hasSelection()">{{'history' | translate}}</button>
+    </div>
+  </md-card>
+  
+  <md-divider md-inset></md-divider>
+  <!--fxFlex-->
+  <div class="mat-elevation-z2">
+    <ngx-datatable
+      class="material"
+      [loadingIndicator]="loading"
+
+      [columnMode]="'force'"
+      [rowHeight]="40"
+
+      [headerHeight]="50"
+      [footerHeight]="50"
+
+      [count]="page.totalElements"
+      [offset]="page.pageNumber"
+      [limit]="page.size"
+
+      [columns]="columns"
+      [rows]="rows"
+
+      [scrollbarH]="true"
+
+      [externalPaging]="true"
+      (page)="setPage($event)"
+
+      [sorts]="[{prop: page.filters.sortType, dir: page.filters.sortDirection}]"
+      [externalSorting]="true"
+      (sort)="onSort($event)"
+      (activate)="handleActivate($event)"
+      [rowClass]="getRowClassBound"
+      
+      [messages]="translateMessages">
+    </ngx-datatable>
+    <ng-template #selectedCellTemplate let-row="row" let-value="value">
+      <md-icon *ngIf="isSelected(row)">check</md-icon>
+    </ng-template>
+    <ng-template #priorityCellTemplate let-row="row" let-value="value">
+      <md-icon *ngIf="row.isCarriedFromPointOfSale" title="{{'carried from point of sale' | translate}}">store</md-icon>
+      <md-icon class="Icon Icon--grey" *ngIf="!row.isCarriedFromPointOfSale" title="{{'carried by shipping' | translate}}">local_shipping</md-icon>
+      <md-icon [style.color]="getPriorityColor(row)">lens</md-icon>
+    </ng-template>
+    <ng-template #rankingCellTemplate let-row="row" let-value="value">
+      <bla-ranking [value]="row.rankingId"></bla-ranking>
+    </ng-template>
+    <ng-template #assigneeCellTemplate let-row="row" let-value="value">
+      <md-icon color="primary" [ngClass]="{ 'u-vhidden': !row.isWorking }" title="{{'working' | translate}}">directions_run</md-icon>
+      {{ value }}
+    </ng-template>
+    <ng-template #paymentCellTemplate let-row="row" let-value="value">
+      <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.isPaid }" title="{{'paid' | translate}}">attach_money</md-icon>
+      <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.isCashOnDelivery }" title="{{'cash on delivery' | translate}}">local_shipping</md-icon>
+    </ng-template>
+    <ng-template #attachedCellTemplate let-row="row" let-value="value">
+      <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.hasBasket }" title="{{'has basket' | translate}}">shopping_basket</md-icon>
+      <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.hasCartAttached }" title="{{'has cart attached' | translate}}">attach_file</md-icon>
+    </ng-template>
+    <ng-template #mailCellTemplate let-row="row" let-value="value">
+      <md-icon color="primary" title="{{'payment claims' | translate}}">mail</md-icon>
+      {{ value }}
+    </ng-template>
+  </div>
+</div>

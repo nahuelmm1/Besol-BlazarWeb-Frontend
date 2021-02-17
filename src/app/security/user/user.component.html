@@ -1,0 +1,67 @@
+<div fxLayout="column" class="PageContent">
+    <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+        <md-card-title>{{'cart by state' | translate}}</md-card-title>
+    </md-card>
+
+    <md-card class="mat-elevation-z2">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutWrap fxLayoutGap="15px">
+            <md-slide-toggle [formControl]="userActive" (change)="onUserActiveChange()">
+                {{'show only no active' | translate}}
+            </md-slide-toggle>
+            <md-slide-toggle [formControl]="userState" (change)="onUserStateChange()">
+                {{'show only no buyer' | translate}}
+            </md-slide-toggle>
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 250px">
+                <input mdInput [formControl]="filter" placeholder="{{'filter' | translate}}" type="text" (keypress)="onKeypress($event)">
+            </md-input-container>
+            <button md-raised-button color="primary" (click)="onSearch()">{{'search' | translate}}</button>
+        </div>
+    </md-card>
+
+    <md-divider md-inset></md-divider>
+    <!--fxFlex-->
+    <div class="mat-elevation-z2">
+        <ngx-datatable class="material" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40" [headerHeight]="50" [footerHeight]="50" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size" [columns]="columns" [rows]="rows"
+            [scrollbarH]="true" [externalPaging]="true" (page)="setPage($event)" [sorts]="[{prop: page.filters.sortType, dir: page.filters.sortDirection}]" [externalSorting]="true" (sort)="onSort($event)" (activate)="handleActivate($event)" [rowClass]="getRowClassBound"
+            [messages]="translateMessages">
+        </ngx-datatable>
+        <ng-template #selectedCellTemplate let-row="row" let-value="value">
+            <md-icon *ngIf="isSelected(row)">check</md-icon>
+        </ng-template>
+        <ng-template #userActiveCellTemplate let-row="row" let-value="value">
+            <md-icon class="Icon" (click)="onActive(row)" *ngIf="row.isActive" title="{{'active' | translate}}">verified_user</md-icon>
+            <md-icon class="Icon Icon--grey" (click)="onActive(row)" *ngIf="!row.isActive" title="{{'active' | translate}}">verified_user</md-icon>
+        </ng-template>
+        <ng-template #userCartHistoryCellTemplate let-row="row" let-value="value">
+            <span (click)="clickUser($event, row.id)" class="pointer">{{row.username}}</span>
+        </ng-template>
+        <ng-template #userBuyerCellTemplate let-row="row" let-value="value">
+            <md-icon class="Icon" (click)="onBuyer(row)" *ngIf="row.isBuyer" title="{{'Buyer' | translate}}">offline_pin</md-icon>
+            <md-icon class="Icon Icon--grey" (click)="onBuyer(row)" *ngIf="!row.isBuyer" title="{{'Buyer' | translate}}">offline_pin</md-icon>
+        </ng-template>
+        <ng-template #userBuyerExpressCellTemplate let-row="row" let-value="value">
+            <md-icon class="Icon" (click)="onBuyerExpress(row)" *ngIf="row.isBuyerExpress" title="{{'BuyerExpress' | translate}}">offline_bolt</md-icon>
+            <md-icon class="Icon Icon--grey" (click)="onBuyerExpress(row)" *ngIf="!row.isBuyerExpress" title="{{'BuyerExpress' | translate}}">offline_bolt</md-icon>
+        </ng-template>
+        <ng-template #userPenalizeCellTemplate let-row="row" let-value="value">
+            <md-icon class="Icon" *ngIf="row.isPenalized" title="{{'penalize' | translate}}">block</md-icon>
+            <md-icon class="Icon Icon--grey" *ngIf="!row.isPenalized" title="{{'penalize' | translate}}">block</md-icon>
+        </ng-template>
+        <ng-template #userGroupCatalogCellTemplate let-row="row" let-value="value">
+            <md-icon class="Icon icon--orange" (click)="onGroupCatalog(row)" *ngIf="row.isCatalogGroupAssigned" title="{{'catalogGroupAssigned' | translate}}">group</md-icon>
+            <md-icon class="Icon Icon--grey" (click)="onGroupCatalog(row)" *ngIf="!row.isCatalogGroupAssigned" title="{{'catalogGroupAssigned' | translate}}">group</md-icon>
+        </ng-template>
+        <ng-template #searchCellTemplate let-row="row" let-value="value">
+            <md-icon (click)="onDetail(row)" title="{{'detail' | translate}}">search</md-icon>
+        </ng-template>
+        <ng-template #keyCellTemplate let-row="row" let-value="value">
+            <md-icon (click)="onUpdatePassword(row)" title="{{'update key' | translate}}">vpn_key</md-icon>
+        </ng-template>
+        <ng-template #debtCellTemplate let-row="row" let-value="value">
+            <md-icon (click)="onUpdateDebt(row)" title="{{'debt' | translate}}">monetization_on</md-icon>
+        </ng-template>
+        <ng-template #rankingCellTemplate let-row="row" let-value="value">
+            <bla-ranking [value]="row.ranking"></bla-ranking>
+        </ng-template>
+    </div>
+</div>

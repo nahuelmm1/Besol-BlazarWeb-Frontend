@@ -1,0 +1,16 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'physical products' | translate}}</h2>
+<md-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <md-list fxFlex="100%">
+    <md-list-item>
+      <h3 md-line>
+        {{ description }}
+      </h3>
+    </md-list-item>
+    <md-list-item *ngFor="let productId of productIds">
+      <a href="#" title="{{'view movements' | translate }}" (click)="onViewMovements($event, productId)">{{ productId }}</a>
+    </md-list-item>
+  </md-list>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="primary" (click)="onClose()">{{'close' | translate}}</button>
+</md-dialog-actions>

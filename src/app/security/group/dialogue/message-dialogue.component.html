@@ -1,0 +1,17 @@
+<h2 md-dialog-title>
+    {{ dialogueTitle }}
+  </h2>
+  <md-dialog-content>
+    {{ dialogueMessage }}
+  </md-dialog-content>
+  <md-dialog-content  *ngIf="dialogueAdditionalMessage !== ''">
+    <ul>
+      <li>{{ dialogueAdditionalMessage }}</li>
+    </ul>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-raised-button color="primary" style="margin-right: 16px;" (click)="onOk()">
+      {{'ok' | translate}}
+    </button>
+  </md-dialog-actions>
+  

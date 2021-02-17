@@ -1,0 +1,52 @@
+<div fxLayout="column" class="PageContent">
+    <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+        <md-card-title>{{'minimums' | translate}}</md-card-title>
+    </md-card>
+
+    <md-card class="mat-elevation-z2">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutWrap fxLayoutGap="15px">
+            <div fxFlex.sm="90%" fxFlex="0 0 auto" fxFlex.gt-sm="0 0 200px">
+                <md-select [formControl]="brandId" placeholder="{{'brand' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale" (change)="onSelectedBrand()">
+                    <md-option *ngFor="let brand of brands" [value]="brand.brandId">{{ brand.name }}</md-option>
+                </md-select>
+            </div>
+            <div *ngIf="isSelectedBrand" class="u-TopSpace" fxLayout="column" fxLayout.gt-sm="row" fxLayout.gt-sm="row" fxLayoutWrap fxLayoutGap="15px" fxFlex="1 0 100%">
+                <button md-raised-button (click)="exportXlsx()">{{'download excel' | translate | uppercase}}</button>
+                <button md-raised-button (click)="importFile()">{{'load excel' | translate | uppercase}}</button>
+                <button md-raised-button (click)="cancel()">{{'cancel' | translate | uppercase}}</button>
+                <button md-raised-button color="primary" (click)="saveChanges()">{{'save changes' | translate | uppercase}}</button>
+            </div>
+        </div>
+    </md-card>
+    <ms-loading-overlay [isLoading]="isLoading"></ms-loading-overlay>
+    <md-divider md-inset></md-divider>
+    <div *ngIf="rows?.length>0" style="overflow-x: scroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Codigo</th>
+                    <th>Talle</th>
+                    <th>Color</th>
+                    <th>Minimo Mitre</th>
+                    <th>Minimo Esquina</th>
+                    <th>Minimo Sarmiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of rows;let i=index">
+                    <td>{{row.brandName}}</td>
+                    <td>{{row.productDefinitionName}}</td>
+                    <td>{{row.sizeName}}</td>
+                    <td>{{row.colorName}}</td>
+                    <td *ngFor="let key of row.minimumsByStoreName | mapKeys">
+                        <input type="text" maxlength="4" class="form-control border-input"
+                        (keypress)="keyPress($event)"
+                        [value]="getMinimum(key,row)" 
+                        (change)="setMinimum(key,row,$event.target.value)"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

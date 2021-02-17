@@ -1,0 +1,31 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{ 'export attached' | translate }}</h2>
+<md-dialog-content>
+  <div *ngIf ="attachedCarts?.length>0;else emptyList">
+    Seleccione que pedidos quiere descargar
+    <ul>
+      <li *ngFor="let item of attachedCarts">
+        <span>
+          <label>
+            <input type="checkbox" [checked]="item.checked" (change)="onCheckItem($event,item)"/>
+          </label>
+        </span>
+        <span>
+          {{ item.value }}
+        </span>
+      </li>
+    </ul>  
+  </div>
+  <ng-template #emptyList>
+    <ul>
+      <li>
+        <span>
+          {{ 'no data to display' | translate }}
+        </span>
+      </li>
+    </ul>
+  </ng-template>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="primary" (click)="onAction()">{{'ok' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

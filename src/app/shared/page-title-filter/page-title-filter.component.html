@@ -1,0 +1,18 @@
+<md-card class="mat-elevation-z2" fxLayout="column" fxLayout.gt-sm="row" style="padding-top: 8px !important; padding-bottom: 0px !important; margin-bottom: 5px;">
+ 
+    <div fxLayout="column" fxLayout.gt-sm="row" style="width: 100%;" [style.height.px]="height" *ngIf="!showSearch" fxLayoutAlign="space-between center">
+      <h2>{{title}}</h2>
+      <button md-icon-button (click)="toggleFilter();">
+        <md-icon>search</md-icon>
+      </button>
+    </div>
+
+    <!-- TODO el Height debria acomodarse cuando es small (not rule >> fxLayout.gt-sm) -->
+    <div fxLayout="column" fxLayout.gt-sm="row" style="width: 100%;" [style.height.px]="height" *ngIf="showSearch" fxLayoutAlign="space-between center">
+      <ng-content></ng-content>
+      <span fxFlex><!-- fill space --></span>
+      <button md-icon-button (click)="toggleFilter();">
+        <md-icon>close</md-icon>
+      </button>
+    </div>
+</md-card>

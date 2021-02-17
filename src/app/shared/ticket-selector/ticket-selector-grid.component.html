@@ -1,0 +1,96 @@
+<div fxLayout="column" class="ticket-list-container">
+  <form novalidate (ngSubmit)="onSearch()">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="15px">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center stretch" fxLayoutWrap>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center stretch" fxLayoutWrap fxFlex="0 0 100%" fxLayoutGap="15px">
+          <div fxFlex.sm="90%" fxFlex="0 0 auto" fxFlex.gt-sm="1 0 200px">
+            <md-select [formControl]="pointOfSale" placeholder="{{'point of sale' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale" >
+              <md-option value="">{{'all' | translate}}</md-option>
+              <md-option *ngFor="let pointOfSale of pointsOfSale" [value]="pointOfSale.pointOfSaleId">{{ pointOfSale.name }}</md-option>
+            </md-select>
+          </div>
+
+          <md-input-container floatingPlaceholder="false"  fxFlex="0 0 auto">
+            <input mdInput [formControl]="dateFrom" [mdDatepicker]="dpDateFrom" placeholder="{{'date from' | translate}}" readonly="readonly">
+            <button mdSuffix [mdDatepickerToggle]="dpDateFrom"></button>
+          </md-input-container>
+          <md-datepicker #dpDateFrom></md-datepicker>
+
+          <md-input-container  floatingPlaceholder="false" fxFlex="0 0 auto">
+            <input mdInput [formControl]="dateTo" [mdDatepicker]="dpDateTo" placeholder="{{'date to' | translate}}" readonly="readonly">
+            <button mdSuffix [mdDatepickerToggle]="dpDateTo"></button>
+            <md-datepicker #dpDateTo></md-datepicker>
+          </md-input-container>
+
+          <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="1 0 120px">
+            <input mdInput [formControl]="ticketNumber" placeholder="{{'voucher number' | translate}}" type="number">
+          </md-input-container>
+
+          <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="1 0 120px">
+            <input mdInput [formControl]="user" [disabled] placeholder="{{'user' | translate}}" type="text" type="number">
+          </md-input-container>
+        </div>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center stretch" fxLayoutWrap fxLayoutGap="15px" fxFlex="0 0 100%">
+          <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="1 0 200px">
+            <input mdInput [formControl]="name" placeholder="{{'name' | translate}}" type="text">
+          </md-input-container>
+
+          <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="1 0 200px">
+            <input mdInput [formControl]="lastname" placeholder="{{'lastname' | translate}}" type="text">
+          </md-input-container>
+
+          <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 130px">
+            <input mdInput [formControl]="amountFrom" placeholder="{{'amount from' | translate}}" type="number">
+          </md-input-container>
+
+          <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 130px">
+            <input mdInput [formControl]="amountTo" placeholder="{{'amount to' | translate}}" type="number">
+          </md-input-container>
+
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign.gt-sm="center center" fxLayoutAlign="center stretch" fxLayoutWrap>
+          <button type="submit" md-raised-button color="primary" >{{'search' | translate}}</button>
+      </div>
+    </div>
+  </form>
+      
+        <md-divider md-inset></md-divider>
+        <!--fxFlex-->
+        <div class="mat-elevation-z2">
+          <ngx-datatable
+              class="material"
+              [loadingIndicator]="loading"
+
+              [columnMode]="'force'"
+              [rowHeight]="35"
+
+              [headerHeight]="40"
+              [footerHeight]="40"
+
+              [count]="page.totalElements"
+              [offset]="page.pageNumber"
+              [limit]="page.size"
+
+              [columns]="columns"
+              [rows]="rows"
+
+              [scrollbarH]="true"
+
+              [externalPaging]="true"
+              (page)="setPage($event)"
+
+              [sorts]="[{prop: defaultSortType, dir: defaultSortDirection}]"
+              [externalSorting]="true"
+              (sort)="onSort($event)"
+              (activate)="handleActivate($event)"
+              [rowClass]="getRowClassBound"
+              
+              [messages]="translateMessages">
+          </ngx-datatable>
+          <ng-template #selectedCellTemplate let-row="row" let-value="value">
+            <md-icon *ngIf="isSelected(row)">check</md-icon>
+          </ng-template>
+        </div>
+    </div>

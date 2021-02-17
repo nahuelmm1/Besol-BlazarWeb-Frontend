@@ -1,0 +1,11 @@
+<md-divider md-inset></md-divider>
+<!--fxFlex-->
+<div class="mat-elevation-z2">
+    <ngx-datatable class="material Grid--verticalScroll-med" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40" [headerHeight]="50" [footerHeight]="50" [columns]="columns" [rows]="payments" [count]="payments.length" [externalPaging]="true"
+        [scrollbarV]="true" [messages]="translateMessages">
+    </ngx-datatable>
+    <ng-template #stateCellTemplate let-row="row" let-value="value">
+        <md-icon *ngIf="!value" color="primary" title="{{ 'approved' | translate }}">check_box</md-icon>
+        <md-icon *ngIf="value" color="warn" title="{{ 'rejected' | translate }}">warning</md-icon>
+    </ng-template>
+</div>

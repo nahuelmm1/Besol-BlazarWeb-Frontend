@@ -1,0 +1,32 @@
+<div class="event-edit">
+  <div md-dialog-title>
+    {{ 'availability' | translate }}
+  </div>
+  <div class="content" md-dialog-content [formGroup]="frmEvent">
+    <div fxLayout="column">
+      <p fxLayout="row">
+        <md-input-container floatingPlaceholder="false"  fxFlex="0 0 120px">
+          <input mdInput formControlName="date" [mdDatepicker]="dpDate" placeholder="{{'date' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDate"></button>
+        </md-input-container>
+        <md-datepicker #dpDate></md-datepicker>
+      </p>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="45%">
+          <md-select formControlName="start" placeholder="{{'from' | translate}}" floatPlaceholder="auto">
+            <md-option *ngFor="let hour of hourList" [value]="hour.value">{{ hour.label }}</md-option>
+          </md-select>
+        </div>
+        <div fxFlex="45%">
+          <md-select formControlName="end" placeholder="{{'to' | translate}}" floatPlaceholder="auto">
+            <md-option *ngFor="let hour of hourList" [value]="hour.value">{{ hour.label }}</md-option>
+          </md-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div md-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button md-dialog-close md-button>Cancel</button>
+    <button class="save" md-raised-button color="primary" (click)="save()">Save</button>
+  </div>
+</div>

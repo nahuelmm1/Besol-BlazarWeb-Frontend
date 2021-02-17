@@ -1,0 +1,65 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{ 'client stats' | translate}}</h2>
+<md-dialog-content fxLayout="column" class="Dialog-Content--Tallest">
+    <div fxLayout="row" fxLayoutWrap *ngIf="client">
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'name and lastname' | translate }}:</span> {{client.fullname}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'ranking' | translate }}:</span>
+            <bla-ranking [value]="client.rankingId" class="Ranking--fixed"></bla-ranking>
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'cuit' | translate }}:</span> {{client.cuit}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'iva' | translate }}:</span> {{client.iva}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'address' | translate }}:</span> {{client.address}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'province' | translate }}:</span> {{client.province}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'phone' | translate }}:</span> {{client.phone}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'email' | translate }}:</span> {{client.email}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'registering date' | translate }}:</span> {{client.registerDate}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'last access' | translate }}:</span> {{client.lastAccess}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'debt' | translate }}:</span> {{client.debt}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'current debt' | translate }}:</span> {{client.currentDebt}}
+        </div>
+        <div class="Form-field" fxFlex="30%" fxFlex.lt-md="100%">
+            <span class="Form-label">{{'debt comment' | translate }}:</span> {{client.debtComment}}
+        </div>
+    </div>
+    <md-tab-group>
+        <md-tab label="{{'payments' | translate}}">
+            <div class="margin-top-tab">
+                <div fxLayout="row" *ngIf="client">
+                    <bla-client-stats-payments fxFlex="1 0 auto" class="Divider--spaced" [loading]="isLoadingPayments" [payments]="payments"></bla-client-stats-payments>
+                </div>
+            </div>
+        </md-tab>
+        <md-tab label="{{'carts' | translate}}">
+            <div class="margin-top-tab">
+                <div fxLayout="row" *ngIf="client">
+                    <bla-client-stats-carts fxFlex="1 0 auto" class="Divider--spaced" [loading]="isLoadingCarts" [carts]="carts"></bla-client-stats-carts>
+                </div>
+            </div>
+        </md-tab>
+    </md-tab-group>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-raised-button color="primary" (click)="onClose()">
+    {{'close' | translate}}</button>
+</md-dialog-actions>

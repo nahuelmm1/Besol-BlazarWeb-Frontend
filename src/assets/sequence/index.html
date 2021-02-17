@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Diagrams</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+</style>
+<body>
+  <div id="diagram"></div>
+  <script src="/assets/sequence/webfont.js" ></script>
+  <script src="/assets/sequence/snap.svg-min.js" ></script>
+  <script src="/assets/sequence/underscore-min.js" ></script>
+  <script src="/assets/sequence/sequence-diagram-min.js" ></script>
+  <script>
+    function onMessage(event) {
+      if (event.data.type === 'draw') {
+        var diagram = Diagram.parse(event.data.payload);
+        diagram.drawSVG("diagram", {theme: 'hand'});
+        window.diagram = diagram;
+        var interval = setInterval(function() {
+          if (diagram.height) {
+            responseResize(event.source, diagram.height + 20,  diagram.width);
+            responseDone(event.source);
+            clearInterval(interval);
+          }
+        }, 200);
+      }
+    }
+    function responseResize(target, height, width) {
+      responseMessage(target, 'resize', {
+          height: height,
+          width: width
+      });
+    }
+    function responseDone(target) {
+      responseMessage(target, 'done');
+    }
+    function responseMessage(target, type, payload) {
+      target.postMessage({
+        type: type,
+        payload: payload
+      }, location.origin);
+    }
+    window.addEventListener('message', onMessage, false);
+
+  </script>
+</body>
+</html>

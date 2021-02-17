@@ -1,0 +1,56 @@
+<h2 md-dialog-title>
+  {{ title | translate }}
+</h2>
+<form novalidate (ngSubmit)="createOrEdit()" [formGroup]="bannerForm">
+  <md-dialog-content>
+    <md-input-container>
+      <input mdInput
+            placeholder="{{'title' | translate}}"
+            type="text"
+            name="title"
+            formControlName="titulo">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput
+              placeholder="{{'subtitle' | translate}}"
+              type="text"
+              name="subtitle"
+              formControlName="subTitulo">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput
+              placeholder="{{'positionX' | translate}}"
+              type="text"
+              name="positionX"
+              formControlName="posicionX">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput
+              placeholder="{{'positionY' | translate}}"
+              type="text"
+              name="positionY"
+              formControlName="posicionY">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput
+      placeholder="{{'widthSubtitle' | translate}}"
+      type="text"
+      name="widthSubtitle"
+      formControlName="anchoSubtitulo">
+    </md-input-container>
+    <md-checkbox name="alignLeft"
+                formControlName="alineadoIzquierda">
+      {{'align left' | translate}}
+    </md-checkbox>
+    <input type="file" (change)="onFileChange($event)" class="input-file" accept="image/x-png,image/gif,image/jpeg">
+    <img [src]="fileImage" class="image-preview">
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-raised-button color="primary" type="submit" style="margin-right: 16px;">
+      {{'ok' | translate}}
+    </button>
+    <button md-raised-button color="secondary" type="button" (click)="closeModal()">
+      {{'cancel' | translate}}
+    </button>
+  </md-dialog-actions>
+</form>

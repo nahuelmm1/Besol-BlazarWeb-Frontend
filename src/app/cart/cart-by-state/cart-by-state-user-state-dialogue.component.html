@@ -1,0 +1,14 @@
+<h2 md-dialog-title>
+  {{'add group' | translate}}
+</h2>
+<md-dialog-content>
+  {{'are you sure add group ' + type | translate}}
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="primary" style="margin-right: 16px;" (click)="addGroup()">
+    {{'ok' | translate}}
+  </button>
+  <button md-raised-button color="secondary" (click)="closeModal()">
+    {{'cancel' | translate}}
+  </button>
+</md-dialog-actions>

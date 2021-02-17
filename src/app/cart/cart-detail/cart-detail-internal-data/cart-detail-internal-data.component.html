@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayout.gt-md="row" fxLayoutWrap fxLayoutAlign="center strech" fxLayoutAlign.gt-md="space-between center">
+  <md-input-container fxFlex="1 0 50%" class="Input">
+    <input mdInput [formControl]="newComment" placeholder="{{'internal data' | translate}}" (keypress)="onKeypress($event)">
+  </md-input-container>
+  <button md-raised-button fxFlex="100px" (click)="addComment($event)">
+    {{'add' | translate}}
+  </button>
+  <md-list fxFlex="100%">
+    <md-list-item *ngFor="let comment of commentList">
+      <h3 md-line>{{ comment.date }} - {{ comment.name }} {{ comment.lastname }}</h3>
+      <p md-line>{{ comment.comment }}</p>
+    </md-list-item>
+  </md-list>
+</div>

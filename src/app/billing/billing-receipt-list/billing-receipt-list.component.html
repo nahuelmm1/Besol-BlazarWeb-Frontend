@@ -1,0 +1,105 @@
+<div fxLayout="column" class="log-list-container">
+
+    <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayout.gt-sm="row" >
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start center">
+        <md-card-title>{{'billing receipt report' | translate}}</md-card-title>
+      </div>
+    </md-card>
+
+    <md-card class="mat-elevation-z2">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="15px">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center start" fxLayoutWrap>
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center start" fxLayoutWrap fxFlex="0 0 100%" fxLayoutGap="15px">
+            <div fxFlex.sm="90%" fxFlex="0 0 auto" fxFlex.gt-sm="1 0 200px">
+              <md-select [formControl]="pointOfSale" placeholder="{{'point of sale' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale" >
+                <md-option value="">{{'all' | translate}}</md-option>
+                <md-option *ngFor="let pointOfSale of pointsOfSale" [value]="pointOfSale.pointOfSaleId">{{ pointOfSale.name }}</md-option>
+              </md-select>
+            </div>
+
+            <md-input-container floatingPlaceholder="false"  fxFlex="0 0 auto">
+              <input mdInput [formControl]="dateFrom" [mdDatepicker]="dpDateFrom" placeholder="{{'date from' | translate}}" readonly="readonly">
+              <button mdSuffix [mdDatepickerToggle]="dpDateFrom"></button>
+            </md-input-container>
+            <md-datepicker #dpDateFrom></md-datepicker>
+
+            <md-input-container  floatingPlaceholder="false" fxFlex="0 0 auto">
+              <input mdInput [formControl]="dateTo" [mdDatepicker]="dpDateTo" placeholder="{{'date to' | translate}}" readonly="readonly">
+              <button mdSuffix [mdDatepickerToggle]="dpDateTo"></button>
+              <md-datepicker #dpDateTo></md-datepicker>
+            </md-input-container>
+          </div>
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center start" fxLayoutWrap fxLayoutGap="15px" fxFlex="0 0 100%">
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 120px">
+              <input mdInput [formControl]="vaucherNumber" placeholder="{{'voucher number' | translate}}" type="number" min="0" type="number" step="1">
+            </md-input-container>
+
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="1 0 200px">
+              <input mdInput [formControl]="userName" placeholder="{{'userName' | translate}}" type="text">
+            </md-input-container>
+
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="1 0 200px">
+              <input mdInput [formControl]="sellerName" placeholder="{{'seller' | translate}}" type="text">
+            </md-input-container>
+
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 130px">
+              <input mdInput [formControl]="amountFrom" placeholder="{{'amount from' | translate}}" type="number" min="0" type="number" step="0.10">
+            </md-input-container>
+
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 130px">
+              <input mdInput [formControl]="amountTo" placeholder="{{'amount to' | translate}}" type="number" min="0" type="number" step="0.10">
+            </md-input-container>
+            
+          </div>
+        </div>
+        
+        <div fxLayout="column" fxLayoutAlign.gt-sm="end center" fxLayoutAlign="center start" fxLayoutWrap fxLayoutGap="10px">
+          <button md-raised-button color="primary" (click)="onSearch()" >{{'search' | translate}}</button>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutAlign="center start" fxLayoutWrap fxLayoutGap="15px" fxFlex="1 0 100%">
+        <button md-raised-button color="primary" (click)="onCreate()" >{{'create receipt' | translate}}</button>
+        <button md-raised-button color="primary" (click)="onPrint()" [disabled]="!hasSelection()" >{{'print receipt' | translate}}</button>
+        <button md-raised-button color="primary" (click)="onDelete()" [disabled]="!hasSelection()" *ngIf="canDeleteReceipt">{{'delete receipt' | translate}}</button>
+        <button md-raised-button color="primary" (click)="onEdit()" [disabled]="!hasSelection()" *ngIf="canDeleteReceipt">{{'edit receipt' | translate}}</button>
+      </div>
+    </md-card>
+    
+    <md-divider md-inset></md-divider>
+    <!--fxFlex-->
+    <div class="mat-elevation-z2">
+      <ngx-datatable
+          class="material"
+          [loadingIndicator]="loading"
+
+          [columnMode]="'force'"
+          [rowHeight]="40"
+
+          [headerHeight]="50"
+          [footerHeight]="50"
+
+          [count]="page.totalElements"
+          [offset]="page.pageNumber"
+          [limit]="page.size"
+
+          [columns]="columns"
+          [rows]="rows"
+
+          [scrollbarH]="true"
+
+          [externalPaging]="true"
+          (page)="setPage($event)"
+
+          [sorts]="[{prop: defaultSortType, dir: defaultSortDirection}]"
+          [externalSorting]="true"
+          (sort)="onSort($event)"
+          (activate)="handleActivate($event)"
+          [rowClass]="getRowClassBound"
+          
+          [messages]="translateMessages">
+        </ngx-datatable>
+        <ng-template #selectedCellTemplate let-row="row" let-value="value">
+          <md-icon *ngIf="isSelected(row)">check</md-icon>
+        </ng-template>
+    </div>
+</div>

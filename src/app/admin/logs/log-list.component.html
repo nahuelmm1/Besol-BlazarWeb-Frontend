@@ -1,0 +1,49 @@
+<div fxLayout="column" class="log-list-container">
+  <page-title-filter [title]="'logs' | translate" (onFilterToggle)="toggleFilter($event);">
+      <md-input-container class="search" floatingPlaceholder="false" >
+        <input mdInput [formControl]="search" #searchEl placeholder="{{'search' | translate}}...">
+      </md-input-container>
+  </page-title-filter>
+  <md-divider md-inset></md-divider>
+  <md-card class="filters">
+    <md-card-content>
+      <div>
+        <md-checkbox type="checkbox" [formControl]="checkboxGroup.controls['filters'].controls[0]">Info</md-checkbox>
+        <md-checkbox type="checkbox" [formControl]="checkboxGroup.controls['filters'].controls[1]">Warning</md-checkbox>
+        <md-checkbox type="checkbox" [formControl]="checkboxGroup.controls['filters'].controls[2]">Error</md-checkbox>
+      </div>
+      <md-divider md-inset></md-divider>
+      <div>
+          <md-checkbox type="checkbox" [formControl]="checkboxGroup.controls['filters'].controls[3]">Ecommerce</md-checkbox>
+          <md-checkbox type="checkbox" [formControl]="checkboxGroup.controls['filters'].controls[4]">Blazar</md-checkbox>
+      </div>
+    </md-card-content>
+    <md-card-content>
+        <button md-raised-button color="secondary" (click)="cleanLog()">
+          {{ 'Clean' | translate }}
+        </button>
+    </md-card-content>
+  </md-card>
+  <div fxFlex class="mat-elevation-z2">
+    <ngx-datatable
+      class="material"
+      [loadingIndicator]="loading"
+      [columnMode]="'force'"
+      [rowHeight]="40"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [count]="page.totalElements"
+      [offset]="page.pageNumber"
+      [limit]="page.size"
+      [columns]="columns"
+      [rows]="rows"
+      [scrollbarH]="true"
+      [externalPaging]="true"
+      (page)="setPage($event)"
+      [externalSorting]="true"
+      (sort)="onSort($event)"
+      [messages]="translateMessages"
+      (activate)="onActivate($event)">
+    </ngx-datatable>
+  </div>
+</div>

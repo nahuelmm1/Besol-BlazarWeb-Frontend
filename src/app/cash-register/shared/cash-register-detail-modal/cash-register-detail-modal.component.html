@@ -1,0 +1,43 @@
+<h2 md-dialog-title>{{'cash register detail' | translate}} - {{pointOfSaleName}}</h2>
+<md-dialog-content>
+
+  <!--<div width="100%">Foo: {{isLoading}}</div>
+  <div width="100%" *ngFor="let item of rows">
+    {{item.operation}} - {{item.date}} - {{item.amount}}
+  </div>-->
+  
+  <div fxLayout="column" class="log-list-container">
+    <md-divider md-inset></md-divider>
+    <div fxFlex class="mat-elevation-z2">
+          <ngx-datatable 
+            class="material striped"
+            [loadingIndicator]="loading"
+
+            [columnMode]="'force'"
+            [rowHeight]="40"
+
+            [headerHeight]="50"
+            [footerHeight]="50"
+            
+            [count]="page.totalElements"
+            [offset]="page.pageNumber"
+            [limit]="page.size"
+
+            [columns]="columns"  
+            [rows]="rows"
+                      
+            [scrollbarH]="true"
+          
+            [externalPaging]="true"
+            (page)="setPage($event)"
+
+            [rowClass]="getRowClass"
+            [messages]="translateMessages">
+          </ngx-datatable>
+      </div>
+      <md-divider md-inset></md-divider>
+  </div>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'close' | translate}}</button>
+</md-dialog-actions>

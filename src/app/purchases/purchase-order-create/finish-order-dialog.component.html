@@ -1,0 +1,23 @@
+<h2 md-dialog-title style="text-align: center;">Orden de Compra Creada</h2>
+<md-dialog-content>
+  <div>
+    <p style="text-align: center;"><strong >¡Ya terminaste!</strong></p>
+  </div>
+  <div>
+    <p style="text-align: center;">Las órdenes de compra de la marca <b>{{brand.name}}</b></p>
+    <p style="text-align: center;">se crearon y agregaron al listado</p>
+  </div>
+  <div style="margin:5px; padding:3px;justify-content: center;">
+    <textarea placeholder="Agregar mensaje para el proveedor"
+    style="width:70%; display: block; margin-left: auto; margin-right: auto;"
+    [formControl]="message"></textarea>
+  </div>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="primary" style="margin-right: 16px;" (click)="confirm()">
+    {{'send' | translate}}
+  </button>
+  <button md-raised-button color="tertiary" (click)="cancel()">
+    {{'return' | translate}}
+  </button>
+</md-dialog-actions>

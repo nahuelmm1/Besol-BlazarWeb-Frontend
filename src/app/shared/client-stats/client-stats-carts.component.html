@@ -1,0 +1,10 @@
+<md-divider md-inset></md-divider>
+<!--fxFlex-->
+<div class="mat-elevation-z2">
+    <ngx-datatable class="material Grid--verticalScroll-med" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40" [headerHeight]="50" [footerHeight]="50" [columns]="columns" [rows]="carts" [count]="carts.length" [externalPaging]="true" [scrollbarV]="true"
+        [messages]="translateMessages">
+    </ngx-datatable>
+    <ng-template #cartNumberCellTemplate let-row="row" let-value="value">
+        <a href="#" (click)="goCart($event, value)">{{ value }}</a>
+    </ng-template>
+</div>

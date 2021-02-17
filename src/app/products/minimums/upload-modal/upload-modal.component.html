@@ -1,0 +1,24 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">
+  {{'upload the file' | translate}}
+  <button (click)="onCancel()"><md-icon>clear</md-icon></button>
+</h2>
+<md-dialog-content>
+  <div class ="subtitle">
+    {{'are u working at the brand'  | translate: brand.name }}
+  </div>
+</md-dialog-content>
+<div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutWrap="wrap">
+  <div *ngIf="droppedFile===null;else step2" fxLayout="column" fxLayoutAlign="center center" fxFlex="120%" class="column" draggable="true" ngClass="{{dragAreaClass}}">
+    <input type="file" #file [multiple]="false" (click)="openFile()" (change)="onFileChange($event)" >
+    <md-icon>cloud_upload</md-icon>
+    <p>{{'drag and drop the file' | translate}}</p>
+  </div>
+  <ng-template #step2>
+    <div class="filename">{{droppedFile.name}}</div>
+    <div class="link" (click)="onDeleteFile()">{{'delete file' | translate}}</div>
+  </ng-template>  
+  <div class="error" *ngIf="error"> {{ error | translate}} </div>
+</div>
+<md-dialog-actions *ngIf="droppedFile!==null" fxLayoutGap="16px">
+  <button style="margin-top: 12px;" md-raised-button color="primary" (click)="onAction()">{{'upload and update' | translate | uppercase}}</button> 
+</md-dialog-actions>

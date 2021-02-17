@@ -1,0 +1,10 @@
+<md-divider md-inset></md-divider>
+<!--fxFlex-->
+<div class="mat-elevation-z2">
+    <ngx-datatable class="material" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40" [headerHeight]="50" [footerHeight]="50" [columns]="columns" [rows]="payments" [count]="payments.length" [externalPaging]="true" [messages]="translateMessages">
+    </ngx-datatable>
+    <ng-template #stateCellTemplate let-row="row" let-value="value">
+        <md-icon *ngIf="value" color="primary" title="{{ 'approved' | translate }}">check_box</md-icon>
+        <md-icon *ngIf="!value" color="primary" title="{{ 'approved' | translate }}">check_box_outline_blank</md-icon>
+    </ng-template>
+</div>

@@ -1,0 +1,72 @@
+<div fxLayout="column" class="PageContent">
+    <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+        <md-card-title>{{'cart by state' | translate}}</md-card-title>
+    </md-card>
+
+    <md-card class="mat-elevation-z2">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutWrap fxLayoutGap="15px">
+            <div fxFlex.sm="90%" fxFlex="0 0 auto" fxFlex.gt-sm="0 0 200px">
+                <md-select [formControl]="stateId" placeholder="{{'state' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale" (change)="onStateSelected()">
+                    <md-option *ngFor="let state of states" [value]="state.stateId">{{ state.name }}</md-option>
+                </md-select>
+            </div>
+            <md-slide-toggle [formControl]="userState" (change)="onUserStateChange()">
+                {{'only buyer' | translate}}
+            </md-slide-toggle>
+            <md-checkbox [formControl]="noTrackNumber" color="primary" [ngClass]="{ 'u-vhidden': !isTrackNumberVisible }">
+                {{'no track number' | translate}}
+            </md-checkbox>
+            <md-input-container floatingPlaceholder="false" fxFlex.gt-sm="0 0 250px">
+                <input mdInput [formControl]="filter" placeholder="{{'filter' | translate}}" type="text" (keypress)="onKeypress($event)">
+            </md-input-container>
+            <button md-raised-button color="primary" (click)="onSearch()">{{'search' | translate}}</button>
+        </div>
+        <div class="u-TopSpace" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px" fxFlex="1 0 100%">
+            <button md-raised-button color="primary" (click)="onDetail()" [disabled]="!hasSelection()">{{'detail' | translate}}</button>
+            <button md-raised-button color="primary" (click)="onReassign()" [disabled]="!hasSelection()">{{'reassign' | translate}}</button>
+            <button md-raised-button color="primary" (click)="onHistory()" [disabled]="!hasSelection()">{{'history' | translate}}</button>
+            <button md-raised-button color="primary" (click)="onClaimPayment()" [disabled]="!hasSelection()" *ngIf="isClaimPaymentVisible">{{'claim payment' | translate}}</button>
+        </div>
+    </md-card>
+
+    <md-divider md-inset></md-divider>
+    <!--fxFlex-->
+    <div class="mat-elevation-z2">
+        <ngx-datatable class="material" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40" [headerHeight]="50" [footerHeight]="50" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size" [columns]="columns" [rows]="rows"
+            [scrollbarH]="true" [externalPaging]="true" (page)="setPage($event)" [sorts]="[{prop: page.filters.sortType, dir: page.filters.sortDirection}]" [externalSorting]="true" (sort)="onSort($event)" (activate)="handleActivate($event)" [rowClass]="getRowClassBound"
+            [messages]="translateMessages">
+        </ngx-datatable>
+        <ng-template #selectedCellTemplate let-row="row" let-value="value">
+            <md-icon *ngIf="isSelected(row)">check</md-icon>
+        </ng-template>
+        <ng-template #priorityCellTemplate let-row="row" let-value="value">
+            <md-icon *ngIf="row.isCarriedFromPointOfSale" title="{{'carried from point of sale' | translate}}">store</md-icon>
+            <md-icon class="Icon Icon--grey" *ngIf="!row.isCarriedFromPointOfSale" title="{{'carried by shipping' | translate}}">local_shipping</md-icon>
+            <md-icon [style.color]="getPriorityColor(row)">lens</md-icon>
+        </ng-template>
+        <ng-template #userStateCellTemplate let-row="row" let-value="value">
+            <md-icon *ngIf="row.userState === 'E'" title="{{'BuyerExpress' | translate}}">offline_bolt</md-icon>
+            <md-icon *ngIf="row.userState === 'C'" title="{{'Buyer' | translate}}">offline_pin</md-icon>
+            <md-icon *ngIf="row.userState === 'N'" title="{{'Forbidden' | translate}}" (click)="changeUserState(row)">highlight_off</md-icon>
+        </ng-template>
+        <ng-template #rankingCellTemplate let-row="row" let-value="value">
+            <bla-ranking [value]="row.rankingId"></bla-ranking>
+        </ng-template>
+        <ng-template #assigneeCellTemplate let-row="row" let-value="value">
+            <md-icon color="primary" [ngClass]="{ 'u-vhidden': !row.isWorking }" title="{{'working' | translate}}">directions_run</md-icon>
+            {{ value }}
+        </ng-template>
+        <ng-template #paymentCellTemplate let-row="row" let-value="value">
+            <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.isPaid }" title="{{'paid' | translate}}">attach_money</md-icon>
+            <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.isCashOnDelivery }" title="{{'cash on delivery' | translate}}">local_shipping</md-icon>
+        </ng-template>
+        <ng-template #attachedCellTemplate let-row="row" let-value="value">
+            <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.hasBasket }" title="{{'has basket' | translate}}">shopping_basket</md-icon>
+            <md-icon color="primary" class="Icon" [ngClass]="{ 'is-disabled': !row.hasCartAttached }" title="{{'has cart attached' | translate}}">attach_file</md-icon>
+        </ng-template>
+        <ng-template #mailCellTemplate let-row="row" let-value="value">
+            <md-icon color="primary" title="{{'payment claims' | translate}}" (click)="onClaimPayment(row)">mail</md-icon>
+            {{ value }}
+        </ng-template>
+    </div>
+</div>

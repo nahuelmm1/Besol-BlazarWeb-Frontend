@@ -1,0 +1,46 @@
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="frmCashRegister">
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input mdInput disabled placeholder="{{'total amount' | translate}}" value="{{totalAmount}}">
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input #iptamount formControlName="cashAmount" mdInput placeholder="{{'cash amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'cashAmount')"
+        (change)="onAmountChange($event, 'cashAmount')"
+      >
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input formControlName="cardAmount" mdInput placeholder="{{'card amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'cardAmount')"
+        (change)="onAmountChange($event, 'cardAmount')"
+      >
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input formControlName="checkAmount" mdInput placeholder="{{'check amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'checkAmount')"
+        (change)="onAmountChange($event, 'checkAmount')"
+      >
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input formControlName="depositAmount" mdInput placeholder="{{'deposit amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'depositAmount')"
+        (change)="onAmountChange($event, 'depositAmount')"
+      >
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input #iptdescription mdInput formControlName="description" placeholder="{{'description' | translate}}">
+    </md-input-container>
+  </div>
+  <!-- hidden button to submit the form on enter -->
+  <button type="submit" hidden></button>
+</form>

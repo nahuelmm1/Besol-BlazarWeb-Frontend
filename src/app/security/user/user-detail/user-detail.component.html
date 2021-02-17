@@ -1,0 +1,153 @@
+<div fxLayout="column" class="PageContent">
+
+  <md-card class="mat-elevation-z2">
+    <md-card-title>
+      <div fxLayout="column" fxLayout.gt-md="row" fxLayoutAlign="center strech"
+        fxLayoutAlign.gt-md="space-between center">
+        {{ 'user detail' | translate }}
+      </div>
+    </md-card-title>
+  </md-card>
+
+  <div class="activity-card mat-elevation-z2">
+    <form [formGroup]="userForm" class="form-content">
+
+      <!-- Activo, Sancionado -->
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px">
+        <md-checkbox color="primary" formControlName="isActive" fxFlex="23%" class="Checkbox Checkbox--leftLabeled">
+          {{'active' | translate}}
+        </md-checkbox>
+        <md-checkbox color="primary" formControlName="isPenalize" fxFlex="23%" class="Checkbox Checkbox--leftLabeled">
+          {{'penalize' | translate}}
+        </md-checkbox>
+      </div>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px">
+        <!-- Usuario, nombre, apellido, email -->
+        <md-input-container fxFlex="23%">
+          <input mdInput #user required formControlName="username" placeholder="{{'user' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="23%">
+          <input mdInput required formControlName="name" placeholder="{{'name' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="23%">
+          <input mdInput required formControlName="surname" placeholder="{{'surname' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="23%">
+          <input mdInput required formControlName="email" placeholder="{{'email' | translate}}">
+        </md-input-container>
+        <!-- Sexo, dni, telefno, celular -->
+        <!-- </div>
+
+     
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px"> -->
+        <md-radio-group fxFlex="23%" formControlName="genre" class="RagioGroup">
+          {{ 'genre' | translate }}
+          <md-radio-button color="primary" value="1">{{'woman' | translate}}</md-radio-button>
+          <md-radio-button color="primary" value="0">{{'man' | translate}}</md-radio-button>
+        </md-radio-group>
+        <md-input-container fxFlex="23%">
+          <input mdInput required formControlName="dni" placeholder="{{'dni' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="23%">
+          <input mdInput required formControlName="phone" placeholder="{{'phone' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="23%">
+          <input mdInput formControlName="mobilePhone" placeholder="{{'mobilePhone' | translate}}">
+        </md-input-container>
+      </div>
+
+
+      <!-- Fax, como nos contactamos -->
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px">
+        <md-input-container fxFlex="23%">
+          <input mdInput formControlName="fax" placeholder="{{'fax' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="72%">
+          <input mdInput formControlName="howToContact" placeholder="{{'howToContact' | translate}}">
+        </md-input-container>
+        <!-- Provincia, Localidad, Domicilio, CP, Expreso -->
+        <md-select [formControl]="provinceId" fxFlex="23%" placeholder="{{'province' | translate}}"
+          floatPlaceholder="auto" class="Select--poinfOfSale">
+          <md-option *ngFor="let province of provinceList" [value]="province.id">{{ province.name }}</md-option>
+        </md-select>
+        <md-select fxFlex="24%" [formControl]="cityId" placeholder="{{'city' | translate}}" floatPlaceholder="auto"
+          class="Select--poinfOfSale">
+          <md-option *ngFor="let city of cityList" [value]="city.id">{{ city.name }}</md-option>
+        </md-select>
+        <md-input-container fxFlex="47%">
+          <input mdInput required formControlName="address" placeholder="{{'client address' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="23%">
+          <input mdInput required formControlName="cp" placeholder="{{'CP' | translate}}">
+        </md-input-container>
+        <md-select [formControl]="expressId" fxFlex="24%" placeholder="{{'express' | translate}}"
+          floatPlaceholder="auto" class="Select--poinfOfSale">
+          <md-option *ngFor="let express of expressList" [value]="express.id">{{ express.name }}</md-option>
+        </md-select>
+        <md-select [formControl]="saleId" fxFlex="23%" placeholder="{{'sale list' | translate}}" floatPlaceholder="auto"
+          class="Select--poinfOfSale">
+          <md-option *ngFor="let sale of saleList" [value]="sale.salePriceId">{{ sale.name }}</md-option>
+        </md-select>
+        <md-select multiple [formControl]="suplierId" fxFlex="23%" placeholder="{{'suppliers' | translate}}"
+          floatPlaceholder="auto" class="Select--poinfOfSale">
+          <md-option *ngFor="let suplier of suplierList" [value]="suplier.suplierId">{{ suplier.name }}</md-option>
+        </md-select>
+
+      </div>
+
+      <!-- Provincia entrega, localidad entrega y domicilio entrega -->
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px">
+        <md-select fxFlex="23%" [formControl]="deliveryProvinceId"
+          placeholder="{{'province' | translate}} {{'delivery' | translate}}" floatPlaceholder="auto"
+          class="Select--poinfOfSale">
+          <md-option *ngFor="let province of provinceList" [value]="province.id">{{ province.name }}</md-option>
+        </md-select>
+        <md-select fxFlex="24%" [formControl]="deliveryCityId"
+          placeholder="{{'city' | translate}} {{'delivery' | translate}}" floatPlaceholder="auto"
+          class="Select--poinfOfSale">
+          <md-option *ngFor="let city of deliveryCityList" [value]="city.id">{{ city.name }}</md-option>
+        </md-select>
+        <md-input-container fxFlex="47%">
+          <input mdInput formControlName="deliveryAddress"
+            placeholder="{{'address' | translate}} {{'delivery' | translate}}">
+        </md-input-container>
+      </div>
+
+      <!-- IVa, Cuit, Razon Social, Provincia fiscal, localidad fiscal y domicilio fiscal -->
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap fxLayoutGap="15px">
+        <md-select [formControl]="vatId" fxFlex="23%" placeholder="{{'iva' | translate}}" floatPlaceholder="auto"
+          class="Select--poinfOfSale">
+          <md-option *ngFor="let vat of vatList" [value]="vat.id">{{ vat.name }}</md-option>
+        </md-select>
+        <md-input-container fxFlex="24%">
+          <input mdInput formControlName="cuit" placeholder="{{'cuit' | translate}}">
+        </md-input-container>
+        <md-input-container fxFlex="47%">
+          <input mdInput formControlName="businessName" placeholder="{{'businessName' | translate}}">
+        </md-input-container>
+        <md-select fxFlex="23%" [formControl]="taxProvinceId"
+          placeholder="{{'province' | translate}} {{'fiscal' | translate}}" floatPlaceholder="auto"
+          class="Select--poinfOfSale">
+          <md-option *ngFor="let province of provinceList" [value]="province.id">{{ province.name }}</md-option>
+        </md-select>
+        <md-select fxFlex="24%" [formControl]="taxCityId" placeholder="{{'city' | translate}} {{'fiscal' | translate}}"
+          floatPlaceholder="auto" class="Select--poinfOfSale">
+          <md-option *ngFor="let city of taxCityList" [value]="city.id">{{ city.name }}</md-option>
+        </md-select>
+        <md-input-container fxFlex="47%">
+          <input mdInput formControlName="taxAddress" placeholder="{{'address' | translate}} {{'fiscal' | translate}}">
+        </md-input-container>
+      </div>
+    </form>
+  </div>
+  <md-card class="mat-elevation-z2">
+    <md-card-content fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between center" fxLayoutWrap>
+      <button md-raised-button color="secondary" (click)="onGoBack()">
+        {{'go back' | translate}}
+      </button>
+      <button md-raised-button color="primary" (click)="onUpdate()" [disabled]="userForm.invalid">
+        {{'ok' | translate}}
+      </button>
+    </md-card-content>
+  </md-card>
+</div>

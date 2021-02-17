@@ -1,0 +1,15 @@
+<h2 md-dialog-title>{{title}} - {{pointOfSale}}</h2>
+<md-dialog-content>
+  <cash-register-form #cashRegisterForm
+    *ngIf="cashRegister"
+    [cashRegister]="cashRegister"
+    (onSubmitForm)="onSave($event)"
+    [allowEditAmount]="!isOpening"
+  ></cash-register-form>
+</md-dialog-content>
+<md-dialog-actions>
+  <md-card-content fxLayout="row">
+    <button class="Button" md-raised-button color="primary" (click)="doSave()">{{'save' | translate}}</button>
+    <button class="Button Button--spaced" md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+  </md-card-content>
+</md-dialog-actions>

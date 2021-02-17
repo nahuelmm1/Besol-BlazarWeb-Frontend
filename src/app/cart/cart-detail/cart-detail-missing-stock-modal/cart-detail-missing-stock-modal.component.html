@@ -1,0 +1,28 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'missing stock' | translate}}</h2>
+<md-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <p>{{'missing stock hint' | translate}}</p>
+  <div class="mat-elevation-z2">
+    <ngx-datatable
+      class="material Divider--spaced"
+  
+      [columnMode]="'force'"
+      [rowHeight]="40"
+  
+      [headerHeight]="50"
+      [footerHeight]="50"
+  
+      [columns]="columns"
+      [rows]="products"
+      [count]="products.length"
+      
+      [externalPaging]="false"
+  
+      [messages]="translateMessages">
+    </ngx-datatable>
+  </div>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="secondary" (click)="onPrint()">{{'print' | translate}}</button>
+  <button md-raised-button color="primary" (click)="onAction()">{{'fix stock' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>
