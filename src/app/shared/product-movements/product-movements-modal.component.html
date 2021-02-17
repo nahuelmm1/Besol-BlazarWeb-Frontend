@@ -1,0 +1,12 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{ 'product movements' | translate}} {{ productId }}</h2>
+<md-dialog-content fxLayout="column" class="Dialog-Content--Tallest">
+  <h4>{{ description }}</h4>
+  <div class="Frame-container">
+      <ms-loading-overlay [isLoading]="isLoading"></ms-loading-overlay>
+      <iframe #frmSequence class="Frame" src="assets/sequence/index.html" (load)="onSequenceLoad($event)" [style.height.px]="frameHeight" [style.width.px]="frameWidth"></iframe>
+  </div>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="primary" (click)="onClose()">
+    {{'close' | translate}}</button>
+</md-dialog-actions>

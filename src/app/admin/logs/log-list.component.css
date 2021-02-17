@@ -1,0 +1,26 @@
+.log-list-container {
+  margin: 36px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters md-card-content {
+  margin-bottom: 0;
+}
+
+.filters md-card-content>div:first-child {
+  margin-bottom: 10px;
+}
+
+.filters md-card-content>div:not(first-child) {
+  margin-top: 10px;
+}
+
+.filters md-card-content md-checkbox {
+  margin-right: 10px;
+}

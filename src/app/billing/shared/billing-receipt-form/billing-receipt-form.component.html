@@ -1,0 +1,70 @@
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="frmReceipt">
+  <!-- hidden button to submit the form on enter -->
+  <button type="submit" hidden></button>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input mdInput formControlName="description" placeholder="{{'description' | translate}}">
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <md-input-container fxFlex>
+      <input mdInput disabled placeholder="{{'total amount' | translate}}" value="{{totalAmount}}">
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="15px">
+    <md-input-container fxFlex>
+      <input #iptamount formControlName="cashAmount" mdInput placeholder="{{'cash amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'cashAmount')"
+        (change)="onAmountChange($event, 'cashAmount')"
+      >
+    </md-input-container>
+    <md-input-container fxFlex>
+      <input formControlName="cardAmount" mdInput placeholder="{{'card amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'cardAmount')"
+        (change)="onAmountChange($event, 'cardAmount')"
+      >
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="15px">
+    <md-input-container fxFlex>
+      <input formControlName="checkAmount" mdInput placeholder="{{'check amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'checkAmount')"
+        (change)="onAmountChange($event, 'checkAmount')"
+      >
+    </md-input-container>
+    <md-input-container fxFlex>
+      <input formControlName="depositAmount" mdInput placeholder="{{'deposit amount' | translate}}" required min="0" type="number" step="0.10"
+        (keyup)="onAmountChange($event, 'depositAmount')"
+        (change)="onAmountChange($event, 'depositAmount')"
+      >
+    </md-input-container>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <div fxLayout="row" fxFlex="1 0 auto" fxLayoutAlign="start center">
+      <label class="Form-label">{{'client' | translate}}</label>
+      <div *ngIf="!clientId" class="Pill Pill--empty">{{'no client' | translate}}</div>
+      <bla-pill *ngIf="clientId" text="{{clientId}} - {{clientName}}" (onClose)="removeClient()"></bla-pill>
+      <button md-icon-button color="primary" (click)="searchClient()" title="{{'search' | translate}}">
+        <md-icon>search</md-icon>
+      </button>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayout.gt-md="row">
+    <div fxLayout="row" fxFlex="1 0 auto" fxLayoutAlign="start center">
+      <label class="Form-label">{{'ticket' | translate}}</label>
+      <div *ngIf="!ticketId" class="Pill Pill--empty">{{'no ticket' | translate}}</div>
+      <bla-pill *ngIf="ticketId" text="{{ticketId}}" (onClose)="removeTicket()"></bla-pill>
+      <button md-icon-button color="primary" (click)="searchTicket()" title="{{'search' | translate}}">
+        <md-icon>search</md-icon>
+      </button>
+    </div>
+    <div fxLayout="row" fxFlex="1 0 auto" fxLayoutAlign="start center">
+      <label class="Form-label">{{'cart' | translate}}</label>
+      <div *ngIf="!cartId" class="Pill Pill--empty">{{'no cart' | translate}}</div>
+      <bla-pill *ngIf="cartId" text="{{cartId}}" (onClose)="removeCart()"></bla-pill>
+      <button md-icon-button color="primary" (click)="searchCart()" title="{{'search' | translate}}">
+        <md-icon>search</md-icon>
+      </button>
+    </div>
+  </div>
+</form>

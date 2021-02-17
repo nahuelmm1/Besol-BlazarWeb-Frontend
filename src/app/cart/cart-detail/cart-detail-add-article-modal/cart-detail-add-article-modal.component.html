@@ -1,0 +1,104 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'add article' | translate}}</h2>
+<md-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutGap="15px">
+    <div fxFlex="25%">
+      <md-select [formControl]="brandId" placeholder="{{'brand' | translate}}" floatPlaceholder="auto" class="Select--vertical Select--poinfOfSale" (change)="onBrandChange($event)">
+        <md-option *ngFor="let brand of brands" [value]="brand.brandId">{{ brand.name }}</md-option>
+      </md-select>
+    </div>
+    <div fxFlex="75%" class="u-textRight">
+      <md-input-container class="Input">
+        <input mdInput [formControl]="filter" placeholder="{{'filter' | translate}}" (keypress)="onKeypress($event)">
+      </md-input-container>
+      <button md-raised-button color="primary" (click)="onSearch()">{{'search' | translate}}</button>
+    </div>
+  </div>
+  <md-divider md-inset></md-divider>
+  <!--fxFlex-->
+  <div class="mat-elevation-z2">
+    <ngx-datatable
+        #articleGrid
+        class="material Divider--spaced"
+        [loadingIndicator]="loading"
+
+        [columnMode]="'force'"
+        [rowHeight]="35"
+
+        [headerHeight]="40"
+        [footerHeight]="40"
+
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+
+        [columns]="columns"
+        [rows]="rows"
+
+        [externalPaging]="true"
+        (page)="setPage($event)"
+
+
+        [messages]="translateMessages">
+        <ngx-datatable-row-detail [rowHeight]="220" #myDetailRow (toggle)="onDetailToggle($event)" class="RowDetail--article">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <ms-loading-overlay [isLoading]="row.isLoading"></ms-loading-overlay>
+            <div *ngIf="row.details" fxLayout="row">
+              <div fxFlex="0 1 200px" class="Image--article"><img src="{{row.details.imageUrl}}"></div>
+              <div fxFlex="80%" fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between start" class="Box--article">
+                <div fxFlex="100%">
+                  <strong>{{ row.name }}</strong>
+                  <md-divider class="Divider--spaced"></md-divider>
+                </div>
+                <div fxFlex="40%">
+                  <div class="Form-field">
+                    <span class="Form-label">{{'brand' | translate }}:</span>{{row.details.brand}}</div>
+                  <div class="Form-field">
+                    <span class="Form-label">{{'size' | translate }}:</span>
+                    <md-select [formControl]="size" class="Select--small">
+                      <md-option *ngFor="let size of row.details.sizes" [value]="size.sizeId">{{ size.name }}</md-option>
+                    </md-select>
+                  </div>
+                  <div class="Form-field"><span class="Form-label">{{'color' | translate }}:</span>
+                    <md-select [formControl]="color" class="Select--small">
+                      <md-option *ngFor="let color of row.details.colors" [value]="color.colorId">{{ color.name }}</md-option>
+                    </md-select>
+                  </div>
+                  <div class="Form-field"><span class="Form-label">{{'unit price' | translate }}:</span>{{row.unitPrice}}</div>
+                </div>
+                <div fxFlex="40%" fxLayout="column" fxLayoutAlign="start start">
+                  <div class="Form-field">
+                    <span class="Form-label">{{'quantity' | translate }}:</span>
+                    <md-input-container class="Input--number">
+                      <input mdInput [formControl]="quantity" type="number" step="1" min="1">
+                    </md-input-container>
+                  </div>
+                  <div class="Form-field">
+                    <span class="Form-label">{{'option' | translate }}:</span>
+                    <md-input-container>
+                      <textarea mdInput [formControl]="option" rows="2"></textarea>
+                    </md-input-container>
+                  </div>
+                </div>
+                <div fxFlex="16%" fxLayout="column">
+                  <button md-raised-button color="primary" (click)="addArticle(row)">{{'add' | translate}}</button>
+                </div>                
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail>
+    </ngx-datatable>
+    <ng-template #offertCellTemplate let-row="row" let-value="value">
+      <md-icon *ngIf="value">check</md-icon>
+    </ng-template>
+    <ng-template #expandCellTemplate let-row="row" let-value="value" let-expanded="expanded">
+      <button md-raised-button color="primary" (click)="toggleExpandRow(row)" [ngClass]="{'Button--toggle': true, 'is-active': row.$$expanded}">
+        <md-icon>expand_more</md-icon>
+        {{'add' | translate}}
+      </button>
+    </ng-template>
+  </div>
+
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

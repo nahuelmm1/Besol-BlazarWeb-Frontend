@@ -1,0 +1,95 @@
+<div fxLayout="column" class="log-list-container">
+
+    <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayout.gt-sm="row" >
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start center">
+        <md-card-title>{{'cash register report' | translate}}</md-card-title>
+      </div>
+    </md-card>
+
+    <md-card class="mat-elevation-z2" fxLayout="column" fxLayout.gt-sm="row" >
+      <div fxLayout="column" fxLayout.gt-sm="row"  fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center start" fxLayoutWrap fxLayoutGap="10px">
+        <div fxFlex.sm="90%" class="selectContainer">
+          <md-select [formControl]="pointOfSale" placeholder="{{'point of sale' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale" >
+            <md-option *ngFor="let pointOfSale of pointsOfSale" [value]="pointOfSale.pointOfSaleId">{{ pointOfSale.name }}</md-option>
+          </md-select>
+        </div>
+
+        <md-input-container floatingPlaceholder="false" >
+          <input mdInput [formControl]="dateFrom" [mdDatepicker]="dpDateFrom" placeholder="{{'date from' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDateFrom"></button>
+        </md-input-container>
+        <md-datepicker #dpDateFrom></md-datepicker>
+
+        <md-input-container  floatingPlaceholder="false">
+          <input mdInput [formControl]="dateTo" [mdDatepicker]="dpDateTo" placeholder="{{'date to' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDateTo"></button>
+        </md-input-container>
+        <md-datepicker #dpDateTo></md-datepicker>
+
+        <div fxFlex.sm="90%" class="selectContainer">
+          <md-select [formControl]="verified" placeholder="{{'verified' | translate}}" floatPlaceholder="auto">
+            <md-option *ngFor="let verified of verifiedFilter" [value]="verified.id">{{ verified.name }}</md-option>
+          </md-select>
+        </div>
+
+        <div fxFlex>
+          <button md-raised-button color="primary" (click)="onSearch()" >{{'search' | translate}}</button>
+        </div>
+       </div>
+    </md-card>
+
+    <md-divider md-inset></md-divider>
+    <!--fxFlex-->
+    <div class="mat-elevation-z2">
+        <ngx-datatable
+          class="material"
+          [loadingIndicator]="loading"
+
+          [columnMode]="'force'"
+          [rowHeight]="40"
+
+          [headerHeight]="50"
+          [footerHeight]="50"
+
+          [count]="page.totalElements"
+          [offset]="page.pageNumber"
+          [limit]="page.size"
+
+          [columns]="columns"
+          [rows]="rows"
+
+          [scrollbarH]="true"
+
+          [externalPaging]="true"
+          (page)="setPage($event)"
+
+          [rowClass]="getRowClass"
+          (activate)="handleActivate($event)"
+          [messages]="translateMessages">
+        </ngx-datatable>
+
+        <ng-template #dateCellTemplate let-row="row" let-value="value">
+            {{renderEmptyOnTotalRow(row, value)}}
+        </ng-template>
+
+        <ng-template #voucherCellTemplate let-row="row" let-value="value">
+            {{renderEmptyOnTotalRow(row, value)}}
+        </ng-template>
+
+        <ng-template #actionCellTemplate let-row="row" let-value="value">
+          <md-icon *ngIf="row.checked" title="{{getCheckTitle(row)}}">check</md-icon>
+          <button md-raised-button *ngIf="row.isClosing() && !row.checked" color="primary" (click)="setVerified(row, true)">{{'validate' | translate}}</button>
+          <button md-icon-button *ngIf="row.isClosing() && row.checked" color="warn" (click)="setVerified(row, false)" title="{{'remove verified' | translate}}">
+            <md-icon>cancel</md-icon>
+          </button>
+        </ng-template>
+
+        <ng-template #operationCellTemplate let-row="row" let-value="value">
+          {{value}}
+          <button class="Button--hover" *ngIf="row.isClosing() || row.isOpening()" md-icon-button color="primary" (click)="openDescription(row)" title="{{'edit description' | translate}}">
+            <md-icon>edit</md-icon>
+          </button>
+        </ng-template>
+
+    </div>
+</div>

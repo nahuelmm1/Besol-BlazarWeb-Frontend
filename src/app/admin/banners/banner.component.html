@@ -1,0 +1,55 @@
+<div fxLayout="column" class="log-list-container">
+  <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+    <md-card-title>{{'banners' | translate}}</md-card-title>
+  </md-card>
+
+  <md-divider md-inset></md-divider>
+
+  <md-card fxFlex="90%" class="mat-elevation-z2">
+    <md-card-title class="u-textRight">
+      <button md-raised-button color="primary" (click)="addBanner()">
+        {{ 'add' | translate }}
+      </button>
+      <button md-raised-button color="primary" [disabled]="!(bannerMove)" (click)="saveBanner()">
+        {{ 'save' | translate }}
+      </button>
+    </md-card-title>
+    <md-card-content>
+        <md-list fxLayout="column" dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, bannerDraggables)" class="dndList">
+          <md-list-item dndPlaceholderRef class="dndPlaceholder">
+          </md-list-item>
+          <md-list-item *ngFor="let bannerDraggable of bannerDraggables"
+              [dndDraggable]="bannerDraggable"
+              [dndEffectAllowed]="bannerDraggable.effectAllowed"
+              (dndMoved)="onDragged(bannerDraggable, bannerDraggables, 'move')"
+              [dndDisableIf]="bannerDraggable.disable">
+            <md-icon *ngIf="bannerDraggable.handle" dndHandle>
+              unfold_more
+            </md-icon>
+            <div class="dndList-item">
+              <div>
+                <div>
+                  <span class="dndList-title">{{ 'title' | translate }}: </span>{{ bannerDraggable.titulo }}
+                </div>
+                <div class="dndList-item-info">
+                  <span class="dndList-title">{{ 'Path' | translate }}: </span>{{ bannerDraggable.imagenPath }}
+                </div>
+              </div>
+              <div class="dndList-item-actions">
+                <button md-icon-button color="secondary" (click)="editBanner(bannerDraggable)" title="{{'edit' | translate}}">
+                  <md-icon>
+                    edit
+                </md-icon>
+                </button>
+                <button md-icon-button color="secondary" (click)="deleteBanner(bannerDraggable.bannerMainId)" title="{{'delete' | translate}}">
+                  <md-icon>
+                      delete
+                  </md-icon>
+                </button>
+              </div>
+            </div>
+          </md-list-item>
+        </md-list>
+    </md-card-content>
+  </md-card>
+</div>

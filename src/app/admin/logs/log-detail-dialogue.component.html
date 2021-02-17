@@ -1,0 +1,21 @@
+<h2 md-dialog-title>{{'log detail' | translate}}</h2>
+<md-dialog-content *ngIf="log">
+  <!--<md-card >
+    <md-card-title>Log Id: {{log?.appLogId}}</md-card-title>
+    <md-card-subtitle>{{log?.type}}</md-card-subtitle>-->
+    <!--<md-card-content>-->
+        <md-card *ngFor="let key of getKeys()" style="margin-bottom: 5px;">
+          <md-card-title>{{key | translate}}</md-card-title>
+          <md-card-content>
+            {{log[key]}}
+          </md-card-content>
+        </md-card>
+    <!--</md-card-content>
+  </md-card>-->
+</md-dialog-content>
+<md-dialog-content *ngIf="!log">
+  <span>{{'no data available' | translate}}</span>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="primary" (click)="closeModal()">{{'close' | translate}}</button>
+</md-dialog-actions>

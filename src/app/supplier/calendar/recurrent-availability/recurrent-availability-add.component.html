@@ -1,0 +1,51 @@
+<div class="event-edit">
+  <div md-dialog-title>
+    {{ 'availability' | translate }}
+  </div>
+  <div class="content" md-dialog-content [formGroup]="frmEvent">
+    <div fxLayout="column">
+      <p fxLayout="row" fxLayoutAlign="space-between center">
+        <md-checkbox color="primary" formControlName="monday" class="Checkbox Checkbox--vertical">{{'mon' | translate}}</md-checkbox>
+        <md-checkbox color="primary" formControlName="tuesday" class="Checkbox Checkbox--vertical">{{'tue' | translate}}</md-checkbox>
+        <md-checkbox color="primary" formControlName="wednesday" class="Checkbox Checkbox--vertical">{{'wed' | translate}}</md-checkbox>
+        <md-checkbox color="primary" formControlName="thursday" class="Checkbox Checkbox--vertical">{{'thu' | translate}}</md-checkbox>
+        <md-checkbox color="primary" formControlName="friday" class="Checkbox Checkbox--vertical">{{'fri' | translate}}</md-checkbox>
+        <md-checkbox color="primary" formControlName="saturday" class="Checkbox Checkbox--vertical">{{'sat' | translate}}</md-checkbox>
+      </p>
+      <p fxLayout="row" fxLayoutAlign="space-between center">
+        <md-input-container floatingPlaceholder="false"  fxFlex="0 0 120px">
+          <input mdInput formControlName="dateStart" [mdDatepicker]="dpDateStart" placeholder="{{'date from' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDateStart"></button>
+        </md-input-container>
+        <md-datepicker #dpDateStart></md-datepicker>
+        <md-input-container floatingPlaceholder="false"  fxFlex="0 0 120px">
+          <input mdInput formControlName="dateEnd" [mdDatepicker]="dpDateEnd" placeholder="{{'date to' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDateEnd"></button>
+        </md-input-container>
+        <md-datepicker #dpDateEnd></md-datepicker>
+      </p>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="45%">
+          <md-select formControlName="hourStart" placeholder="{{'hour from' | translate}}" floatPlaceholder="auto">
+            <md-option *ngFor="let hour of hourList" [value]="hour.value">{{ hour.label }}</md-option>
+          </md-select>
+        </div>
+        <div fxFlex="45%">
+          <md-select formControlName="hourEnd" placeholder="{{'hour to' | translate}}" floatPlaceholder="auto">
+            <md-option *ngFor="let hour of hourList" [value]="hour.value">{{ hour.label }}</md-option>
+          </md-select>
+        </div>
+      </div>
+      <ul class="ErrorList">
+        <li *ngIf="dayTouched && errors.dayRequired">{{'dayRequired' | translate}}</li>
+        <li *ngIf="frmEvent.get('dateEnd').touched && errors.dateEndRequired">{{'dateEndRequired' | translate}}</li>
+        <li *ngIf="frmEvent.get('dateEnd').touched && !errors.dateEndRequired && errors.badDateRange">{{'badDateRange' | translate}}</li>
+        <li *ngIf="hourTouched && errors.badHourRange">{{'badHourRange' | translate}}</li>
+      </ul>
+    </div>
+  </div>
+  <div md-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button md-dialog-close md-button>{{'cancel' | translate}}</button>
+    <button class="save" md-raised-button color="primary" (click)="save()">{{'generate' | translate}}</button>
+  </div>
+</div>

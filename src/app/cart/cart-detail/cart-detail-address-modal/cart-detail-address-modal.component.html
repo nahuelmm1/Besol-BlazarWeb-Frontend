@@ -1,0 +1,20 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'change shippingAddress' | translate}}</h2>
+<md-dialog-content>
+  <form novalidate (ngSubmit)="onUpdate($event)" *ngIf="formReady" [formGroup]="frmAddress"
+    fxLayout="column" fxLayoutGap="20px"
+  >
+    <md-select formControlName="province" placeholder="{{'province' | translate}}" floatPlaceholder="auto" class="Select--vertical" (change)="onProvinceChange($event)">
+      <md-option *ngFor="let province of provinces" [value]="province">{{ province.name }}</md-option>
+    </md-select>
+    <md-select formControlName="city" placeholder="{{'city' | translate}}" floatPlaceholder="auto" class="Select--vertical">
+      <md-option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</md-option>
+    </md-select>
+    <md-input-container fxFlex="100%">
+      <input mdInput formControlName="address" placeholder="{{'shipping address' | translate}}">
+    </md-input-container>
+  </form>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="primary" (click)="onAction()">{{'ok' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

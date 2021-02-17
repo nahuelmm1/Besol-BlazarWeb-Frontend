@@ -1,0 +1,67 @@
+<div fxLayout="column" class="log-list-container">
+    
+    <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayout.gt-sm="row">
+      <h2>{{'cash register checker report' | translate}}&nbsp;&nbsp;{{machinePos?.name}}</h2>
+    </md-card>
+
+    <md-card fxHide="true" fxHide.gt-sm="false" class="mat-elevation-z2" fxLayout="row">
+      <h2>{{machinePos?.name}}</h2>
+    </md-card>
+
+    <md-card class="mat-elevation-z2 Card--filter" fxLayout="column" fxLayout.gt-sm="row">
+      <div fxLayout="column" fxLayout.gt-sm="row" style="width: 100%;"  fxLayoutAlign.gt-sm="space-between center" fxLayoutAlign="center start"> 
+        <md-input-container class="Input" floatingPlaceholder="false">
+          <input mdInput [formControl]="dateFrom" [mdDatepicker]="dpDateFrom" placeholder="{{'date from' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDateFrom"></button>
+        </md-input-container>
+        <md-datepicker #dpDateFrom></md-datepicker>
+       
+        <md-input-container class="Input" floatingPlaceholder="false">
+          <input mdInput [formControl]="dateTo" [mdDatepicker]="dpDateTo" placeholder="{{'date to' | translate}}" readonly="readonly">
+          <button mdSuffix [mdDatepickerToggle]="dpDateTo"></button>
+        </md-input-container>
+        <md-datepicker #dpDateTo></md-datepicker>
+        
+        <span fxFlex><!-- fill space --></span>
+        <button md-raised-button color="primary" style="margin-bottom: 10px;"
+              (click)="onSearch()" 
+              [disabled]="!canSearch()">
+          {{'search' | translate}}
+        </button>
+       </div>
+    </md-card>
+
+    <md-divider md-inset></md-divider>
+    
+    <div fxFlex class="mat-elevation-z2">
+        <ngx-datatable 
+          class="material"
+          [loadingIndicator]="loading"
+
+          [columnMode]="'force'"
+          [rowHeight]="40"
+
+          [headerHeight]="50"
+          [footerHeight]="50"
+          
+          [count]="page.totalElements"
+          [offset]="page.pageNumber"
+          [limit]="page.size"
+
+          [columns]="columns"  
+          [rows]="rows"
+                    
+          [scrollbarH]="true"
+         
+          [externalPaging]="true"
+          (page)="setPage($event)"
+
+          [messages]="translateMessages">
+        </ngx-datatable>
+
+        <ng-template #viewDetailCellTemplate let-value="value">
+            <button md-raised-button color="primary" (click)="viewDetail(value)">{{'view detail' | translate}}</button>
+        </ng-template>
+
+    </div>
+</div>   

@@ -1,0 +1,25 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'packaging' | translate}}</h2>
+<md-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <md-list fxFlex="100%">
+    <md-list-item>
+      <h3 md-line>
+        {{'weight' | translate}}
+      </h3>
+    </md-list-item>
+    <md-list-item *ngFor="let box of boxes">
+      <md-input-container fxFlex="90%">
+        <input mdInput min="0" type="number" step="1" [(ngModel)]="box.weight">
+      </md-input-container>
+      <button fxFlex="10%" md-icon-button color="warn" (click)="onDeleteBox(box)" title="{{ 'delete' | translate }}">
+        <md-icon>cancel</md-icon>
+      </button>
+    </md-list-item>
+  </md-list>
+  <div fxLayout="column" fxFlex="100%" class="Divider--spaced">
+    <button md-raised-button (click)="onAddBox()">{{'add box' | translate}}</button>
+  </div>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="primary" (click)="onAction()">{{'ok' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

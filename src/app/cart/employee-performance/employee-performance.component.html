@@ -1,0 +1,33 @@
+<div fxLayout="column" class="PageContent">
+  <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+    <md-card-title>{{'employee performance' | translate}}</md-card-title>
+  </md-card>
+
+  <md-card class="mat-elevation-z2">
+    <form novalidate (ngSubmit)="onUpdate($event)" [formGroup]="frmFilter" fxFlex="90%" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="33%">
+        <md-select formControlName="group" placeholder="{{'group' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale">
+          <md-option *ngFor="let group of groupList" [value]="group.groupId">{{ group.name }}</md-option>
+        </md-select>
+      </div>
+      <md-input-container floatingPlaceholder="false"  fxFlex="0 0 120px">
+        <input mdInput formControlName="dateFrom" [mdDatepicker]="dpDateFrom" placeholder="{{'date from' | translate}}" readonly="readonly">
+        <button mdSuffix [mdDatepickerToggle]="dpDateFrom"></button>
+      </md-input-container>
+      <md-datepicker #dpDateFrom></md-datepicker>
+      <md-input-container floatingPlaceholder="false"  fxFlex="0 0 120px">
+        <input mdInput formControlName="dateTo" [mdDatepicker]="dpDateTo" placeholder="{{'date to' | translate}}" readonly="readonly">
+        <button mdSuffix [mdDatepickerToggle]="dpDateTo"></button>
+      </md-input-container>
+      <md-datepicker #dpDateTo></md-datepicker>
+      <div fxFlex="33%">
+        <md-select formControlName="option" placeholder="{{'option' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale">
+          <md-option *ngFor="let option of optionList" [value]="option.optionId">{{ option.name }}</md-option>
+        </md-select>
+      </div>
+    </form>
+  </md-card>
+  <md-card class="mat-elevation-z2">
+    <canvas #canvasChartEl width="400" height="400"></canvas>
+  </md-card>
+</div>

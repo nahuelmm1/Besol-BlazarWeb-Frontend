@@ -1,0 +1,39 @@
+.form-content {
+  padding: 24px 42px 42px;
+
+  md-input-container {
+    width: 100%;
+    margin: 6px 0;
+  }
+}
+
+.fixActionRow {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-dialog-content {
+  max-height: 100%;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.mat-select {
+  margin-top: 15px;
+}
+
+.mat-list .mat-list-item /deep/.mat-list-item-content {
+  padding: 0px !important;
+}
+
+.mat-list,
+.mat-nav-list {
+  padding: 0px !important;
+}
+
+.demo-list {
+  margin: 0 !important;
+}

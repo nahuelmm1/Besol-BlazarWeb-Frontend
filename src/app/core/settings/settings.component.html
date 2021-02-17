@@ -1,0 +1,22 @@
+<div fxLayout="column" class="PageContent">
+  <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+    <md-card-title>{{'settings' | translate}}</md-card-title>
+  </md-card>
+
+  <md-card class="mat-elevation-z2">
+    <md-card-title>{{'computer settings' | translate}}</md-card-title>
+    
+    <md-divider class="Divider--spaced"></md-divider>
+
+    <md-card-content fxLayout="row" fxLayoutAlign="strech center" fxLayoutWrap>
+      <div fxFlex="40%" fxFlex.gt-sm="20%">
+        {{'list page size' | translate}}
+      </div>
+      <div fxFlex="60%" fxFlex.gt-sm="80%">
+        <md-select [formControl]="pageSize" floatPlaceholder="auto" class="Select--numbers">
+          <md-option *ngFor="let size of sizeList" [value]="size">{{ size }}</md-option>
+        </md-select>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

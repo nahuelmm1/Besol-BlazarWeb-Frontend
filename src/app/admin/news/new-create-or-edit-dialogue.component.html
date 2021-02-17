@@ -1,0 +1,31 @@
+<h2 md-dialog-title>
+  {{ title | translate }}
+</h2>
+<form novalidate (ngSubmit)="createOrEdit()" [formGroup]="newForm">
+  <md-dialog-content>
+    <md-input-container>
+      <input mdInput
+            placeholder="{{'title' | translate}}"
+            type="text"
+            name="title"
+            formControlName="title">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput
+              placeholder="{{'description' | translate}}"
+              type="text"
+              name="text"
+              formControlName="text">
+    </md-input-container>
+    <input type="file" (change)="onFileChange($event)" class="input-file" accept="image/x-png,image/gif,image/jpeg">
+    <div class="image-preview" [style.background-image]="fileImage"></div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-raised-button color="primary" type="submit" style="margin-right: 16px;">
+      {{'ok' | translate}}
+    </button>
+    <button md-raised-button color="secondary" type="button" (click)="closeModal()">
+      {{'cancel' | translate}}
+    </button>
+  </md-dialog-actions>
+</form>

@@ -1,0 +1,34 @@
+<div fxLayout="column" class="log-list-container">
+  <md-card fxHide.gt-sm="true" class="mat-elevation-z2" fxLayout="column" fxLayoutAlign="start center">
+    <md-card-title>{{'operations' | translate}}</md-card-title>
+  </md-card>
+
+  <md-divider md-inset></md-divider>
+
+  <md-card fxFlex="90%" class="mat-elevation-z2">
+    <md-card-title class="u-textRight">
+      <button md-raised-button color="primary" (click)="save()">
+        {{ 'save' | translate }}
+      </button>
+    </md-card-title>
+    <md-card-content>
+      <ng-container *ngFor="let group of groups; let groupIndex = index">
+        <a href="#" class="Link--group" (click)="toggleEditGroup($event, groupIndex)"><h3><md-icon *ngIf="editingGroups[groupIndex]">expand_less</md-icon><md-icon *ngIf="!editingGroups[groupIndex]">expand_more</md-icon>{{ group.name }}<md-icon class="Icon-edit">edit</md-icon></h3></a>
+        <md-list>
+          <ng-container *ngFor="let operation of operations; let operationIndex = index">
+            <md-list-item *ngIf="operationGroupMatrix[groupIndex][operationIndex] || editingGroups[groupIndex]" class="ListItem--operation">
+              <div class="check-container">
+                <md-checkbox *ngIf="editingGroups[groupIndex]" color="primary" [checked]="operationGroupMatrix[groupIndex][operationIndex]" (change)="onOperationChange($event, groupIndex, operationIndex)"></md-checkbox>
+              </div>
+              <div class="title-container">
+                <h4 md-line>{{ operation.name }}</h4>
+                <p md-line>{{ operation.description }}</p>
+              </div>
+            </md-list-item>
+          </ng-container>
+        </md-list>
+      </ng-container>
+    </md-card-content>
+  </md-card>
+
+</div>

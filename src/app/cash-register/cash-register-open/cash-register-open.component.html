@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="CashRegisterAction">
+  <md-card fxFlex="90%">
+    <md-card-title>{{'open cash register' | translate}} <span *ngIf="!loadingPointOfSale">- {{getPointOfSaleDescription()}}</span></md-card-title>
+
+    <md-divider class="Divider--spaced"></md-divider>
+
+    <md-card-content fxLayout="column">
+      <cash-register-form #cashRegisterForm (onSubmitForm)="onOpenCashRegister($event)"></cash-register-form>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="flex-end">
+        <button [disabled]="!canOpenCashRegister()" md-raised-button color="primary" (click)="doOpenCashRegister()">
+          {{'open cash register' | translate}}
+        </button>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

@@ -1,0 +1,16 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'option' | translate}}</h2>
+<md-dialog-content>
+  <md-list fxFlex="100%">
+    <md-list-item *ngFor="let option of products">
+      <h3 md-line>
+        <md-checkbox color="primary" [checked]="option.selected" (change)="option.selected = !option.selected" >
+          {{ option.quantity }} {{ option.brand }} {{ option.article }} {{ option.size }} {{ option.color }}
+        </md-checkbox>
+      </h3>
+    </md-list-item>
+  </md-list>
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="primary" (click)="onAction()">{{'add' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

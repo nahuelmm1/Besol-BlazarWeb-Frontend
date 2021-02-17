@@ -1,0 +1,33 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 100%;">
+  <div class="login mat-elevation-z12">
+    <div class="login-header" fxLayout="column" style="width: 100%;" fxLayoutAlign="center start">
+      <img src="assets/img/logo.png">
+    </div>
+     <form novalidate (ngSubmit)="login()" [formGroup]="loginForm">
+      <div class="login-content" fxLayout="column" fxLayoutAlign="start stretch">
+          <md-input-container>
+            <input mdInput 
+                   required
+                   placeholder="{{'user' | translate}}" 
+                   type="text" 
+                   name="user" 
+                   formControlName="user" />
+          </md-input-container>
+          <md-input-container>
+            <input mdInput 
+                   required
+                   placeholder="{{'password' | translate}}" 
+                   type="password" 
+                   name="password" 
+                   formControlName="password"/>
+          </md-input-container>
+         
+          <button class="loginBtn" color="primary" md-raised-button 
+                  type="submit"
+                  [disabled]="!loginForm.valid">
+              {{'login' | translate | uppercase}}
+          </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<md-divider md-inset></md-divider>
+<!--fxFlex-->
+<div class="mat-elevation-z2">
+  <ngx-datatable
+    class="material"
+    [loadingIndicator]="loading"
+
+    [columnMode]="'force'"
+    [rowHeight]="40"
+
+    [headerHeight]="50"
+    [footerHeight]="50"
+
+    [columns]="columns"
+    [rows]="products"
+    [count]="products.length"
+    
+    [scrollbarH]="true"
+
+    [externalPaging]="true"
+
+    (activate)="handleActivate($event)"
+    [rowClass]="getRowClassBound"
+    
+    [messages]="translateMessages">
+  </ngx-datatable>
+  <ng-template #lockedCellTemplate let-row="row" let-value="value">
+    <md-checkbox color="primary" [ngModel]="value" (change)="onLock(row)">
+    </md-checkbox>
+  </ng-template>
+  <ng-template #confirmedCellTemplate let-row="row" let-value="value">
+    <md-icon *ngIf="row.added" title="{{ 'product added' | translate }}">file_upload</md-icon>
+    <button md-icon-button class="Button--iconShort" *ngIf="row.added && authorization.allowDeleteAddedProduct" color="warn" (click)="onDeleteProduct(row)" title="{{ 'delete product' | translate }}">
+      <md-icon>cancel</md-icon>
+    </button>
+    <md-checkbox *ngIf="!row.added" [disabled]="!getConfirmedEnabledBound(row)" color="primary" [ngModel]="getConfirmedCheckedBound(row)" (change)="onConfirmBound(row)">
+    </md-checkbox>
+  </ng-template>
+  <ng-template #stockCellTemplate let-row="row" let-value="value">
+    <div [title]="getStockTitle(row)">
+      {{ value }}({{ row.stockControl }})
+    </div>
+  </ng-template>
+  <ng-template #optionCommentCellTemplate let-row="row" let-value="value">
+    <a href="#" (click)="onOptionCommentClick($event, row)" title="{{ value }}">{{ value }}</a>
+  </ng-template>
+</div>

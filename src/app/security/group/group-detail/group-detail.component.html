@@ -1,0 +1,67 @@
+<div fxLayout="column" class="PageContent">
+
+  <md-card class="mat-elevation-z2">
+    <md-card-title>
+      <div fxLayout="column" fxLayout.gt-md="row">
+        {{ 'group detail' | translate }}
+      </div>
+      <div fxFlex></div>
+      <button md-raised-button color="primary" (click)="onUpdate()" [disabled]="groupForm.invalid">
+        {{'save' | translate}}
+      </button>
+      <button md-raised-button color="secondary" (click)="onGoBack()" style="margin-left: 16px;">
+        {{'go back' | translate}}
+      </button>
+    </md-card-title>
+  </md-card>
+  <div class="fixActionRow">
+    <md-card>
+      <md-dialog-content>
+        <form [formGroup]="groupForm">
+          <!-- Nombre, Descripcion, adm. pedidos y vendedores -->
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" fxLayoutWrap
+            fxLayoutGap="15px">
+            <md-input-container fxFlex="23%">
+              <input mdInput #group required formControlName="name" placeholder="{{'name' | translate}}">
+            </md-input-container>
+            <md-input-container fxFlex="72%">
+              <input mdInput formControlName="description" placeholder="{{'description' | translate}}">
+            </md-input-container>
+            <md-select multiple [formControl]="sellerId" fxFlex="100%" placeholder="{{'sellers' | translate}}"
+              floatPlaceholder="auto" class="Select--poinfOfSale">
+              <md-option *ngFor="let seller of sellerList" [value]="seller.id">{{ seller.displayName }}</md-option>
+            </md-select>
+            <h5 *ngIf="sellerToolTip.length == 0" class="mat-dialog-title--strech">
+              {{ 'no sellers assigned' | translate}}</h5>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <md-list class="demo-list">
+                <md-list-item *ngFor="let seller of sellerToolTip" class="mat-list-text">
+                  <bla-pill [showCloseButton]="false" text="{{seller.displayName}}"></bla-pill>
+                </md-list-item>
+              </md-list>
+            </div>
+          </div>
+        </form>
+        <div fxLayout="row" fxLayoutWrap style="margin-top: 26px;">
+          <h4 class="mat-dialog-title--strech">{{ 'users assigned' | translate}}</h4>
+        </div>
+        <div fxLayout="row" fxLayoutWrap style="margin-bottom: 26px;">
+          <button md-raised-button color="primary" (click)="onAddUserGroup()">{{'add user' | translate}}</button>
+          <button md-raised-button color="secondary" (click)="onDelete()" style="margin-left: 16px;"
+            [disabled]="!hasSelection()">{{'delete' | translate}}</button>
+        </div>
+        <ngx-datatable class="material" [loadingIndicator]="loading" [columnMode]="'force'" [rowHeight]="40"
+          [headerHeight]="50" [footerHeight]="50" [count]="page.totalElements" [offset]="page.pageNumber"
+          [limit]="page.size" [columns]="columns" [rows]="rows" [scrollbarH]="true" [externalPaging]="true"
+          (page)="setPage($event)" [sorts]="[{prop: page.filters.sortType, dir: page.filters.sortDirection}]"
+          [externalSorting]="true" (sort)="onSort($event)" (activate)="handleActivate($event)"
+          [rowClass]="getRowClassBound" [messages]="translateMessages">
+        </ngx-datatable>
+        <md-divider md-inset></md-divider>
+        <ng-template #selectedCellTemplate let-row="row" let-value="value">
+          <md-icon *ngIf="isSelected(row)">check</md-icon>
+        </ng-template>
+      </md-dialog-content>
+    </md-card>
+  </div>
+</div>

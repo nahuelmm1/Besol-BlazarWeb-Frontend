@@ -1,0 +1,37 @@
+
+
+<div fxLayout="column" class="log-list-container">
+    <md-card class="mat-elevation-z2" fxLayout="column" fxLayout.gt-sm="row">
+      <h2>{{'cash register state' | translate}} <span *ngIf="!loadingPointOfSale">- {{getPointOfSaleDescription()}}</span></h2>
+    </md-card>
+
+    <md-divider md-inset></md-divider>
+    
+    <div fxFlex class="mat-elevation-z2">
+        <ngx-datatable 
+          class="material"
+          [loadingIndicator]="loading"
+
+          [columnMode]="'force'"
+          [rowHeight]="40"
+
+          [headerHeight]="50"
+          [footerHeight]="50"
+          
+          [count]="page.totalElements"
+          [offset]="page.pageNumber"
+          [limit]="page.size"
+
+          [columns]="columns"  
+          [rows]="rows"
+                    
+          [scrollbarH]="true"
+         
+          [externalPaging]="true"
+          (page)="setPage($event)"
+
+          [rowClass]="getRowClass"
+          [messages]="translateMessages">
+        </ngx-datatable>
+    </div>
+</div>   

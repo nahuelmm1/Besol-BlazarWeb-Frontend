@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="FormPage">
+  <md-card fxFlex="90%">
+    <md-card-title>{{'edit receipt' | translate}} <span *ngIf="!loadingPointOfSale">- {{getPointOfSaleDescription()}}</span></md-card-title>
+
+    <md-divider class="Divider--spaced"></md-divider>
+
+    <md-card-content fxLayout="column" *ngIf="receipt">
+      <billing-receipt-form #receiptForm (onSubmitForm)="onUpdate($event)" [receipt]="receipt"></billing-receipt-form>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+        <button md-raised-button color="primary" (click)="doUpdate()" *ngIf="receipt" [disabled]="!canUpdate()">
+          {{'save receipt' | translate}}
+        </button>
+        <button md-raised-button (click)="onCancel()">
+          {{'cancel' | translate}}
+        </button>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

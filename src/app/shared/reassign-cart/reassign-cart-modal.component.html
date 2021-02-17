@@ -1,0 +1,18 @@
+<h2 md-dialog-title>{{ 'reassign cart' | translate}} {{ cartNumber }}</h2>
+<md-dialog-content fxLayout="column" class="">
+  <h4>{{ description }}</h4>
+  <ms-loading-overlay [isLoading]="isLoading"></ms-loading-overlay>
+  <md-input-container>
+    <input mdInput readonly placeholder="{{'current assignee' | translate}}" value="{{ currentAssignee }}">
+  </md-input-container>
+  <div>
+    <md-select #assigneeEl [formControl]="assignee" placeholder="{{'new assignee' | translate}}" floatPlaceholder="auto" class="Select--poinfOfSale">
+      <md-option *ngFor="let user of userList" [value]="user.userId">{{ user.fullname }}</md-option>
+    </md-select>
+  </div>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="primary" style="margin-right: 16px;" (click)="onAction()">
+    {{'assign' | translate}}</button>
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'cancel' | translate}}</button>
+</md-dialog-actions>

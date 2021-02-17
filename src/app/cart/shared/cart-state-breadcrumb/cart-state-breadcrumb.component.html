@@ -1,0 +1,6 @@
+<div class="CartStateBreadcrumb" *ngIf="ready">
+    <ng-container *ngIf="!isCanceled()">
+      <div *ngFor="let state of states" class="CartStateBreadcrumb-step" [ngClass]="{'is-active': state.stateId === stateId, 'is-filled': state.stateId <= stateId, 'is-disabled': state.stateId > stateId}" >{{ state.name }}</div>
+    </ng-container>
+    <div *ngIf="isCanceled()" class="CartStateBreadcrumb-step" >{{ canceledState.name }}</div>
+</div>

@@ -1,0 +1,37 @@
+<h2 md-dialog-title class="mat-dialog-title--strech">{{'history' | translate}}</h2>
+<md-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <div class="Divider--spaced"></div>
+  <div class="mat-elevation-z2">
+    <ngx-datatable
+        class="material Divider--spaced Grid--verticalScroll"
+        [loadingIndicator]="loading"
+
+        [columnMode]="'force'"
+        [rowHeight]="35"
+
+        [headerHeight]="40"
+        [footerHeight]="40"
+
+        [columns]="columns"
+        [rows]="rows"
+        [count]="rows.length"
+
+        [externalPaging]="true"
+        [scrollbarV]="true"
+        [messages]="translateMessages">
+    </ngx-datatable>
+    <ng-template #offertCellTemplate let-row="row" let-value="value">
+      <md-icon *ngIf="value">check</md-icon>
+    </ng-template>
+    <ng-template #expandCellTemplate let-row="row" let-value="value" let-expanded="expanded">
+      <button md-raised-button color="primary" (click)="toggleExpandRow(row)" [ngClass]="{'Button--toggle': true, 'is-active': row.$$expanded}">
+        <md-icon>expand_more</md-icon>
+        {{'add' | translate}}
+      </button>
+    </ng-template>
+  </div>
+
+</md-dialog-content>
+<md-dialog-actions fxLayoutGap="16px">
+  <button md-raised-button color="secondary" (click)="onCancel()">{{'close' | translate}}</button>
+</md-dialog-actions>

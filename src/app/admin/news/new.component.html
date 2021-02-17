@@ -1,0 +1,47 @@
+<div class="new-list-container">
+  <md-card>
+    <md-card-title class="new-list-title">
+      <span>{{'news' | translate}}</span>
+      <button md-raised-button color="primary" (click)="addNew()">
+        {{ 'add' | translate }}
+      </button>
+    </md-card-title>
+  </md-card>
+  <md-divider md-inset></md-divider>
+  <md-card *ngFor="let new of newsData" class="new-list-card">
+    <md-card-content>
+      <div class="new-list-card-new">
+        <div class="new-list-card-image" [style.background-image]="new.fileImage">
+          <div *ngIf="new.file == '' || new.file == null" class="no-image">
+            <md-icon>
+              clear
+            </md-icon>
+          </div>
+        </div>
+        <div class="new-list-card-info">
+          <div>
+            <span class="new-list-card-title">{{ 'title' | translate }}: </span>{{ new.title }}
+          </div>
+          <div>
+            <span class="new-list-card-title">{{ 'description' | translate }}: </span>{{ new.text }}
+          </div>
+          <div>
+            <span class="new-list-card-title">{{ 'date' | translate }}: </span>{{ new.date }}
+          </div>
+        </div>
+      </div>
+      <div class="new-list-card-actions">
+        <button md-icon-button color="secondary" (click)="editNew(new)" title="{{'edit' | translate}}">
+          <md-icon>
+            edit
+        </md-icon>
+        </button>
+        <button md-icon-button color="secondary" (click)="deleteNew(new.newId)" title="{{'delete' | translate}}">
+          <md-icon>
+              delete
+          </md-icon>
+        </button>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

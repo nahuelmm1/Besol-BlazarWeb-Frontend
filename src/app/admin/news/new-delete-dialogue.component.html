@@ -1,0 +1,17 @@
+<h2 md-dialog-title>
+  {{'new_delete' | translate}}
+</h2>
+<md-dialog-content *ngIf="newId">
+  {{'are you sure delete new?' | translate}}
+</md-dialog-content>
+<md-dialog-content *ngIf="!newId">
+  <span>{{'no data available' | translate}}</span>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-raised-button color="primary" style="margin-right: 16px;" [disabled]="!newId" (click)="deleteNew()">
+    {{'ok' | translate}}
+  </button>
+  <button md-raised-button color="secondary" (click)="closeModal()">
+    {{'cancel' | translate}}
+  </button>
+</md-dialog-actions>
